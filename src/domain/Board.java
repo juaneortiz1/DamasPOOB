@@ -5,9 +5,9 @@ package domain;
  */
 
 public class Board {
-    private char[][] board;
-    private char[][] casillas;
-    private char[][] fichas;
+    private String[][] board;
+    private String[][] casillas;
+    private String[][] fichas;
     private Checkers checkers;
 
     /**
@@ -15,7 +15,7 @@ public class Board {
      * @param checkers Logica del juego
      */
     public Board(Checkers checkers) {
-        casillas = new char[10][10];
+        casillas = new String[10][10];
         this.checkers = checkers;
         casillas = checkers.generateMatrix();
     }

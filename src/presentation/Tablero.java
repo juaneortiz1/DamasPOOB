@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 /**
  * Clase que genera el tablero con el que interactara para jugar
  */
-public class Tablero extends JPanel {
+public class  Tablero extends JPanel {
     private Casilla[][] casillas;
     private Ficha[][] fichas;
     private Checkers checkers;
@@ -222,7 +222,13 @@ public class Tablero extends JPanel {
             for (int i = 0; i < casillas.length; i++) {
                 for (int j = 0; j < casillas[0].length; j++) {
                     if (fichas[i][j] != null) {
-                        fichas[i][j].changeColor(newColors[i][j]);
+                        if (newColors[i][j] == Color.YELLOW ) {
+                            Ficha reina = new FichaReina(i,j);
+                            reina.changeColor(Color.YELLOW);
+                            fichas[i][j] = reina;
+                        } else{
+                            fichas[i][j].changeColor(newColors[i][j]);
+                        }
                     }
                 }
             }

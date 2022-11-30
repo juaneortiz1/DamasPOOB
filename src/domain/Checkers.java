@@ -12,7 +12,7 @@ import static java.lang.Integer.parseInt;
 public class Checkers {
 
     private final static int SIZE = 10;
-    private char[][] board;
+    private String[][] board;
 
     private Color[][] boardColor;
     private int redcheckers;
@@ -23,7 +23,7 @@ public class Checkers {
     */
     public Checkers() {
 
-        board = new char[SIZE][SIZE];
+        board = new String[SIZE][SIZE];
         boardColor = new Color[SIZE][SIZE];
         redcheckers = 20;
         bluecheckers = 20;
@@ -35,18 +35,18 @@ public class Checkers {
      * Genera una matriz de caracteres
      * @return elementos de tipo char
      */
-    public char[][] generateMatrix(){
+    public String[][] generateMatrix(){
         for (int i=0;i<SIZE;i++) {
             for (int j = 0; j < SIZE; j++) {
                 if (((j % 2 == 0) && (i % 2 == 0)) || ((j % 2 == 1) && (i % 2 == 1))) {
-                    board[i][j] = '.';
+                    board[i][j] = ".";
                 }else{
                     if (j < 4) {
-                        board[i][j] = 'r';
+                        board[i][j] = "r";
                     } else if (j>3 && j < 6) {
-                        board[i][j] = '_';
+                        board[i][j] = "_";
                     } else if (j > 5) {
-                        board[i][j] = 'b';
+                        board[i][j] = "b";
                     }
                 }
             }
@@ -114,49 +114,102 @@ public class Checkers {
      * @return matriz de numeros enteros
      */
     public int[][] goMove(int x, int y) {
-        int vewAl[][] = new int[2][2];
-        if(board[x][y] == 'r'){
-            if(x+1 >= 0 && y+1 >= 0 && board[x+1][y+1] == '_'){
-                System.out.println(x+1 +" a "+ y+1);
-                vewAl[0][0] = x+1;
-                vewAl[0][1] = y+1;
-            }
-            if(x-1 >= 0 && y+1 >= 0 && board[x-1][y+1] == '_'){
-                System.out.println(x-1 +" a "+ y+1);
-                vewAl[1][0] = x-1;
-                vewAl[1][1] = y+1;
-            }
-            if(x+2 >= 0 && y+2 >= 0 && board[x+1][y+1] == 'b' && board[x+2][y+2] == '_'){
-                System.out.println(x+2 +" a "+ y+2);
-                vewAl[0][0] = x+2;
-                vewAl[0][1] = y+2;
-            }
-            if(x-2 >= 0 && y+2 >= 0 && board[x-1][y+1] == 'b' && board[x-2][y+2] == '_'){
-                System.out.println(x-2 +" a "+ y+2);
-                vewAl[1][0] = x-2;
-                vewAl[1][1] = y+2;
-            }
-        }
-        if(board[x][y] == 'b'){
-            if(x-1 >= 0 && y-1 >= 0 && board[x-1][y-1] == '_'){
-                vewAl[0][0] = x-1;
-                vewAl[0][1] = y-1;
-            }
-            if(x+1 >= 0 && y-1 >= 0 && board[x+1][y-1] == '_'){
-                vewAl[1][0] = x+1;
-                vewAl[1][1] = y-1;
-            }
-            if(x-2 >= 0 && y-2 >= 0 && board[x-1][y-1] == 'r' && board[x-2][y-2] == '_'){
-                vewAl[0][0] = x-2;
-                vewAl[0][1] = y-2;
-            }
-            if(x+2 >= 0 && y-2 >= 0 && board[x+1][y-1] == 'r' && board[x+2][y-2] == '_'){
-                vewAl[1][0] = x+2;
-                vewAl[1][1] = y-2;
-            }
+        int vewAl[][] = new int[4][4];
+        int select = board[x][y] == "r" ? 1 : -1;
+        if(board[x][y] == "qr" || board[x][y] == "br"){
+            return  goMoveQueen( x,  y) ;
         }
 
+        if(y+1 < 10 && select + y >= 0) {
+            if (x - 1 >= 0) {
+                if (board[x - 1][select + y] == "_") {
+                    vewAl[0][0] = x - 1;
+                    vewAl[0][1] = select + y;
+                }
+            }
+            if (x + 1 < 10) {
+                if (board[x + 1][select + y] == "_") {
+                    vewAl[1][0] = x + 1;
+                    vewAl[1][1] = select + y;
+                }
+            }
+        }
+        vewAl = eat(x, y, vewAl, select);
         return vewAl;
+    }
+
+    public int[][] eat(int x, int y, int[][] vewAl, int select){
+        select = select == 1 ? 2  : -2;
+        if(select + y < 10 && select + y >= 0) {
+            if (x - 2 >= 0) {
+                if (board[x - 2][select + y] == "_") {
+                    vewAl[2][0] = x - 2;
+                    vewAl[2][1] = select + y;
+                }
+            }
+            if (x + 2 < 10) {
+                if (board[x + 2][select + y] == "_") {
+                    vewAl[3][0] = x + 2;
+                    vewAl[3][1] = select + y;
+                }
+            }
+        }
+        return vewAl;
+    }
+    public int[][] goMoveQueen(int x, int y) {
+        ArrayList<Integer> pochita = new ArrayList<>();
+        int vewAl[][] = new int[4][4];
+        System.out.println(x + " a " + y);
+        for(int i = x-1; i < x+1; i+=2){
+            for(int j = y-1; j < x+1; j+=2){
+                if(i >= 0 && i < 10 && j >= 0 && j < 10){
+                    if(board[i][j] == "_"){
+                        pochita.add(i);
+                        pochita.add(j);
+                    }
+                }
+            }
+        }
+        for(int i = x-2; i < x+2; i+=4){
+            for(int j = y-2; j < x+2; j+=4){
+                if(i >= 0 && i < 10 && j >= 0 && j < 10){
+                    if(board[i][j] == "_"){
+                        pochita.add(i);
+                        pochita.add(j);
+                    }
+                }
+            }
+        }
+        int w = 0;
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                vewAl[i][j] = pochita.get(w);
+                w += 1;
+            }
+        }
+        return vewAl;
+    }
+    public void addPower(){
+        for(int i = 0; i < 10 ; i++) {
+            if (board[i][0] == "b") {
+                goPower( i,  0, "reina",  'b');
+            }
+            if (board[i][9] == "r") {
+                goPower( i,  9, "reina",  'r');
+            }
+        }
+    }
+    public void goPower(int x, int y, String power, char bando) {
+        if(bando == 'r') {
+            if (power == "reina") {
+                board[x][y] = "qr";
+            }
+        }
+        else{
+            if (power == "reina") {
+                board[x][y] = "qb";
+            }
+        }
     }
     /**
      * Valida si un movieminto si es valido
@@ -179,7 +232,7 @@ public class Checkers {
         }
 
 
-        else if (board[xfrom][yfrom]== turno && board[xto][yto]=='_') {
+
 
             if (Math.abs(xfrom-xto)==1) {
                 if ((turno == 'r') && (yto - yfrom == 1))
@@ -190,13 +243,13 @@ public class Checkers {
 
             else if (Math.abs(xfrom-xto)==2) {
                 if (turno == 'r' && (yto - yfrom == 2) &&
-                        board[(xfrom+xto)/2][(yfrom+yto)/2] == 'b')
+                        board[(xfrom+xto)/2][(yfrom+yto)/2] == "b")
                     isValid =  true;
                 else if (turno == 'b' && (yto - yfrom == -2) &&
-                        board[(xfrom+xto)/2][(yfrom+yto)/2] == 'r')
+                        board[(xfrom+xto)/2][(yfrom+yto)/2] == "r")
                     isValid = true;
             }
-        }
+
 
         if(isValid = true){
             executeMove( xfrom, yfrom, xto, yto);
@@ -213,12 +266,12 @@ public class Checkers {
      */
 
     public void executeMove(int xfrom, int yfrom, int xto, int yto) {
-        char comodin = board[xfrom][yfrom];
+        String comodin = board[xfrom][yfrom];
         board[xfrom][yfrom] = board[xto][yto];
         board[xto][yto] = comodin;
 
         if (Math.abs(xto - xfrom) == 2) {
-            board[(xfrom + xto) / 2][(yfrom + yto) / 2] = '_';
+            board[(xfrom + xto) / 2][(yfrom + yto) / 2] = "_";
             if (turno == 'r') {
                 System.out.println("aqui");
                 bluecheckers--;
@@ -237,16 +290,16 @@ public class Checkers {
     public void colorMatriz(){
         for(int i = 0; i < board.length; i++){
             for(int j = 0; j < board[0].length; j++){
-                if(board[i][j] == 'r'){
+                if(board[i][j] == "r"){
                     boardColor[i][j] = Color.RED;
-                } else if (board[i][j] == '_') {
+                } else if (board[i][j] == "_") {
                     boardColor[i][j] = Color.BLACK;
-                } else if(board[i][j] == 'b'){
+                } else if(board[i][j] == "b"){
                     boardColor[i][j] = Color.BLUE;
                 }
             }
         }
-        board[5][2] = 't';
+        board[5][2] = "t";
     }
 
     /**
