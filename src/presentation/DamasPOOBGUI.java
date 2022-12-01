@@ -104,6 +104,7 @@ public class DamasPOOBGUI extends JFrame {
         DamasPOOBGUI frame = this;
         int resultado = JOptionPane.showConfirmDialog(frame, "¿Está seguro que quiere abrir una nueva pestaña?", "Nuevo", JOptionPane.YES_NO_OPTION);
         if (resultado == JOptionPane.YES_OPTION) {
+            frame.setVisible(false);
             DamasPOOBGUI gui = new DamasPOOBGUI();
             gui.setVisible(true);
         } else if (resultado == JOptionPane.NO_OPTION) {
