@@ -15,9 +15,11 @@ public class Checkers {
     private String[][] board;
 
     private Color[][] boardColor;
-    private int redcheckers;
-    private int bluecheckers;
+    private int redcheckers,bluecheckers,holderX,holderY,timer;
+
     private char turno;
+    private String holder;
+
     /**
      * Metodo construtor de la clase checkers
     */
@@ -54,6 +56,7 @@ public class Checkers {
         board[2][5] = "t";
         board[7][4] = "t" ;
         board[5][4] = "m";
+        board[3][4] = "j";
         return  board;
     }
     /**
@@ -225,10 +228,6 @@ public class Checkers {
         Boolean isValid;
         boolean moved = false;
 
-        System.out.println(xfrom);
-        System.out.println(yfrom);
-        System.out.println(xto);
-        System.out.println(yto);
         if (xfrom < 0 || xfrom > 9 || yfrom < 0 || yfrom > 9 ||
                 xto < 0 || xto > 9 || yto < 0 || yto > 9){
             isValid = false;
@@ -380,7 +379,18 @@ public class Checkers {
                 }
 
             }
-        }else {
+        }
+        else if((board[xfrom][yfrom] == "b" || board[xfrom][yfrom] == "r") && board[xto][yto] == "j"){
+            holder = board[xfrom][yfrom];
+            holderX = xto;
+            holderY = yto;
+            board[xfrom][yfrom] = "_";
+            board[xto][yto] = "jr";
+            timer = 4;
+
+        }
+
+        else {
             String comodin = board[xfrom][yfrom];
             board[xfrom][yfrom] = board[xto][yto];
             board[xto][yto] = comodin;
@@ -393,9 +403,11 @@ public class Checkers {
                     redcheckers--;
                 }
             }
-            System.out.println(bluecheckers);
-            System.out.println(redcheckers);
-
+            timer--;
+            if(timer == 0){
+                board[holderX][holderY] = holder;
+            }
+            System.out.println(timer);
             colorMatriz();
             printBoard();
 
