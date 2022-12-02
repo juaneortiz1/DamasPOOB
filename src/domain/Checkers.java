@@ -11,7 +11,8 @@ import static java.lang.Integer.parseInt;
  */
 public class Checkers {
 
-    private final static int SIZE = 10;
+    public  static int SIZE = 10;
+
     private String[][] board;
 
     private Color[][] boardColor;
@@ -33,6 +34,12 @@ public class Checkers {
 
         generateMatrix();
     }
+    public String[][] getBoard() {
+        return board;
+    }
+
+
+
     /**
      * Genera una matriz de caracteres
      * @return elementos de tipo char
@@ -419,11 +426,11 @@ public class Checkers {
     public void colorMatriz(){
         for(int i = 0; i < board.length; i++){
             for(int j = 0; j < board[0].length; j++){
-                if(board[i][j] == "r"){
+                if(board[i][j].equals("r")){
                     boardColor[i][j] = Color.RED;
-                } else if (board[i][j] == "_") {
+                } else if (board[i][j].equals("_")) {
                     boardColor[i][j] = Color.BLACK;
-                } else if(board[i][j] == "b"){
+                } else if(board[i][j].equals("b")){
                     boardColor[i][j] = Color.BLUE;
                 }
             }
