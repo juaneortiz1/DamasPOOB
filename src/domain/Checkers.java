@@ -121,87 +121,34 @@ public class Checkers {
             turno = 'r';
     }
     /**
-     * Realiza el movimiento de las fichas
+     * Reali
+     *
+     * za el movimiento de las fichas
      * @param x posicion x en el tablero del elemento
      * @param y posicion y en el tablero del elemento
      * @return matriz de numeros enteros
      */
     public int[][] goMove(int x, int y) {
-        int viewAll[][] = new int[4][4];
-        int select = board[x][y] == "r" ? 1 : -1;
-        if(board[x][y] == "qr" || board[x][y] == "br"){
-            return  goMoveQueen( x,  y) ;
-        }
-
-        if(y+1 < 10 && select + y >= 0) {
-            if (x - 1 >= 0) {
-                if (board[x - 1][select + y] == "_") {
-                    viewAll[0][0] = x - 1;
-                    viewAll[0][1] = select + y;
-                }
-            }
-            if (x + 1 < 10) {
-                if (board[x + 1][select + y] == "_") {
-                    viewAll[1][0] = x + 1;
-                    viewAll[1][1] = select + y;
+        int viewAll[][] = new int[8][2];
+        int vectorX[] = {-1,1,-1,1};
+        int vectorY[] = {-1,-1,1,1};
+        int in = board[x][y].equals("r") ? 2 : 0, en = board[x][y] == "b" ? 2 : 4;
+        String siguiente;
+        siguiente = board[x][y].equals("r") || board[x][y].equals("qr") ? "b" : "r";
+        siguiente = board[x][y].equals("b") || board[x][y].equals("qb") ? "r" : "b";
+        for (int i = in; i < en; i++) {
+            if (vectorX[i] + x >= 0 && vectorX[i] + x < 10 && vectorY[i] + y >= 0 && vectorY[i] + y < 10) {
+                viewAll[i][0] = !board[vectorX[i] + x][vectorY[i] + y].equals(board[x][y]) && !board[vectorX[i] + x][vectorY[i] + y].equals(siguiente) ? x + vectorX[i] : 0;
+                viewAll[i][1] = !board[vectorX[i] + x][vectorY[i] + y].equals(board[x][y]) && !board[vectorX[i] + x][vectorY[i] + y].equals(siguiente) ? y + vectorY[i] : 0;
+                if (viewAll[i][0] == 0 && viewAll[i][1] == 0 && vectorX[i] * 2 + x >= 0 && vectorX[i] * 2 + x < 10 && vectorY[i] * 2 + y >= 0 && vectorY[i] * 2 + y < 10) {
+                    viewAll[i][0] = board[vectorX[i] + x][vectorY[i] + y].equals(siguiente) && board[vectorX[i] * 2 + x][vectorY[i] * 2 + y].equals("_") ? x + vectorX[i] * 2 : 0;
+                    viewAll[i][1] = board[vectorX[i] + x][vectorY[i] + y].equals(siguiente) && board[vectorX[i] * 2 + x][vectorY[i] * 2 + y].equals("_") ? y + vectorY[i] * 2 : 0;
                 }
             }
         }
-        viewAll = eat(x, y, viewAll, select);
         return viewAll;
     }
 
-    public int[][] eat(int x, int y, int[][] vewAl, int select){
-        select = select == 1 ? 2  : -2;
-        if(select + y < 10 && select + y >= 0) {
-            if (x - 2 >= 0) {
-                if (board[x - 2][select + y] == "_") {
-                    vewAl[2][0] = x - 2;
-                    vewAl[2][1] = select + y;
-                }
-            }
-            if (x + 2 < 10) {
-                if (board[x + 2][select + y] == "_") {
-                    vewAl[3][0] = x + 2;
-                    vewAl[3][1] = select + y;
-                }
-            }
-        }
-        return vewAl;
-    }
-    public int[][] goMoveQueen(int x, int y) {
-        ArrayList<Integer> pochita = new ArrayList<>();
-        int vewAl[][] = new int[4][4];
-        System.out.println(x + " a " + y);
-        for(int i = x-1; i < x+1; i+=2){
-            for(int j = y-1; j < x+1; j+=2){
-                if(i >= 0 && i < 10 && j >= 0 && j < 10){
-                    if(board[i][j] == "_"){
-                        pochita.add(i);
-                        pochita.add(j);
-                    }
-                }
-            }
-        }
-        for(int i = x-2; i < x+2; i+=4){
-            for(int j = y-2; j < x+2; j+=4){
-                if(i >= 0 && i < 10 && j >= 0 && j < 10){
-                    if(board[i][j] == "_"){
-                        pochita.add(i);
-                        pochita.add(j);
-                    }
-                }
-            }
-        }
-        int w = 0;
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                vewAl[i][j] = pochita.get(w);
-                w += 1;
-            }
-        }
-        return vewAl;
-    }
     public void addPower(){
         for(int i = 0; i < 10 ; i++) {
             if (board[i][0] == "b") {
@@ -428,10 +375,22 @@ public class Checkers {
             for(int j = 0; j < board[0].length; j++){
                 if(board[i][j].equals("r")){
                     boardColor[i][j] = Color.RED;
-                } else if (board[i][j].equals("_")) {
+                }if (board[i][j].equals("_")) {
                     boardColor[i][j] = Color.BLACK;
-                } else if(board[i][j].equals("b")){
+                }if(board[i][j].equals("b")){
                     boardColor[i][j] = Color.BLUE;
+                }if(board[i][j].equals("jr")){
+                    boardColor[i][j] = Color.CYAN;
+                }if(board[i][j].equals("m")){
+                    boardColor[i][j] = Color.GREEN;
+                }if(board[i][j].equals("t")){
+                    boardColor[i][j] = Color.magenta;
+                }if(board[i][j].equals("j")){
+                    boardColor[i][j] = Color.PINK;
+                }if(board[i][j].equals("qb")){
+                    boardColor[i][j] = Color.BLUE;
+                }if(board[i][j].equals("qr")){
+                    boardColor[i][j] = Color.RED;
                 }
             }
         }

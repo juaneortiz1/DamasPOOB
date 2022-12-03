@@ -181,16 +181,15 @@ public class  Tablero extends JPanel {
             int[][] vewAl;
             fichaSelect = ficha;
             vewAl = checkers.goMove(ficha.getX(),ficha.getY());
-                for(int i = 0; i < vewAl[0].length; i++){
+                for(int i = 0; i < vewAl.length; i++){
                     if(fichas[vewAl[i][0]][vewAl[i][1]] != null) {
                         fichas[vewAl[i][0]][vewAl[i][1]].acive();
                     }
                 }
-
         }else{
             casillaSelect = ficha;
-            System.out.println("  x2 "+casillaSelect.getX()+" y2 "+casillaSelect.getY());
             move(fichaSelect, casillaSelect);
+            checkers.addPower();
         }
     }
 
