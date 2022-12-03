@@ -151,22 +151,22 @@ public class Checkers {
 
     public void addPower(){
         for(int i = 0; i < 10 ; i++) {
-            if (board[i][0] == "b") {
+            if (board[i][0].equals("b")) {
                 goPower( i,  0, "reina",  'b');
             }
-            if (board[i][9] == "r") {
+            if (board[i][9].equals("r")) {
                 goPower( i,  9, "reina",  'r');
             }
         }
     }
     public void goPower(int x, int y, String power, char bando) {
         if(bando == 'r') {
-            if (power == "reina") {
+            if (power.equals("reina")) {
                 board[x][y] = "qr";
             }
         }
         else{
-            if (power == "reina") {
+            if (power.equals("reina")) {
                 board[x][y] = "qb";
             }
         }
@@ -196,10 +196,10 @@ public class Checkers {
 
             else if (Math.abs(xfrom-xto)==2) {
                 if (turno == 'r' && (yto - yfrom == 2) &&
-                        board[(xfrom+xto)/2][(yfrom+yto)/2] == "b")
+                        board[(xfrom + xto) / 2][(yfrom + yto) / 2].equals("b"))
                     isValid =  true;
                 else if (turno == 'b' && (yto - yfrom == -2) &&
-                        board[(xfrom+xto)/2][(yfrom+yto)/2] == "r")
+                        board[(xfrom + xto) / 2][(yfrom + yto) / 2].equals("r"))
                     isValid = true;
             }
 
