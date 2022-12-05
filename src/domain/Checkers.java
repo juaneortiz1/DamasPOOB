@@ -113,7 +113,7 @@ public class Checkers {
 
             int xto = stdin.nextInt();
             int yto = stdin.nextInt();
-            validMove( xfrom, yfrom,  xto,  yto);
+            executeMove( xfrom, yfrom,  xto,  yto);
         }
 
         if (turno == 'r')
@@ -136,8 +136,9 @@ public class Checkers {
                 if(board[viewAll[i][0]][viewAll[i][1]].equals("_")){
                     view[i][0] = viewAll[i][0];
                     view[i][1] = viewAll[i][1];
-                    System.out.println(!fichas[x][y].tipe(board[viewAll[i][0]][viewAll[i][1]]));
-                }else if(!fichas[x][y].tipe(board[viewAll[i][0]][viewAll[i][1]]) && (fichas[x][y].makeEat(x,y,i)[0][0] >= 0 && fichas[x][y].makeEat(x,y,i)[0][0] < 10) && (fichas[x][y].makeEat(x,y,i)[0][1] >= 0 && fichas[x][y].makeEat(x,y,i)[0][1] < 10)){
+
+                }else if(!fichas[x][y].tipe(board[viewAll[i][0]][viewAll[i][1]]) && (fichas[x][y].makeEat(x,y,i)[0][0] >= 0 && fichas[x][y].makeEat(x,y,i)[0][0] < 10) && (fichas[x][y].makeEat(x,y,i)[0][1] >= 0 && fichas[x][y].makeEat(x,y,i)[0][1] < 10) && !board[viewAll[i][0]][viewAll[i][1]].equals("_")){
+                    System.out.println(viewAll[i][0] + " "+viewAll[i][1]);
                     view[i][0] = fichas[x][y].makeEat(x,y,i)[0][0];
                     view[i][1] = fichas[x][y].makeEat(x,y,i)[0][1];
                 }else{
@@ -156,14 +157,14 @@ public class Checkers {
     public void addPower(){
         for(int i = 0; i < 10 ; i++) {
             if (board[i][0].equals("b")) {
-                //goPower( i,  0, "reina",  'b');
+                goPower( i,  0, "reina",  'b');
                 //goPower( i,  0, "ninja",  'b');
-                goPower( i,  0, "zombie",  'b');
+                //goPower( i,  0, "zombie",  'b');
             }
             if (board[i][9].equals("r")) {
-                //goPower( i,  9, "reina",  'r');
+                goPower( i,  9, "reina",  'r');
                 //goPower( i,  9, "ninja",  'r');
-                goPower( i,  0, "zombie",  'r');
+                //goPower( i,  0, "zombie",  'r');
             }
         }
     }
@@ -174,16 +175,19 @@ public class Checkers {
                     FichaReina queen = new FichaReina(x, y, "qr");
                     fichas[x][y] = queen;
                     board[x][y] = "qr";
+                    break;
                 }
                 case "ninja" : {
                     FichaNinja ninja = new FichaNinja(x, y, "qr", Color.RED);
                     fichas[x][y] = ninja;
                     board[x][y] = "nr";
+                    break;
                 }
                 case "zombie" : {
                     FichaZombie zombie = new FichaZombie(x, y, "zr", Color.RED);
                     fichas[x][y] = zombie;
                     board[x][y] = "zr";
+                    break;
                 }
             }
         }
@@ -193,29 +197,22 @@ public class Checkers {
                     FichaReina queen = new FichaReina(x, y, "qb");
                     fichas[x][y] = queen;
                     board[x][y] = "qb";
+                    break;
                 }
                 case "ninja" : {
                     FichaNinja ninja = new FichaNinja(x, y, "nb", Color.BLUE);
                     fichas[x][y] = ninja;
                     board[x][y] = "nb";
+                    break;
                 }
                 case "zombie" : {
                     FichaZombie zombie = new FichaZombie(x, y, "zb", Color.BLUE);
                     fichas[x][y] = zombie;
                     board[x][y] = "zb";
+                    break;
                 }
             }
         }
-    }
-    /**
-     * Valida si un movieminto si es valido
-     * @param xfrom posicion en x de origen
-     * @param yfrom posicion en y de origen
-     * @param xto posicion en x de destino
-     * @param yto posicion en y de destino
-     */
-    public void validMove(int xfrom, int yfrom, int xto, int yto) {
-        executeMove( xfrom, yfrom, xto, yto);
     }
 
     /**

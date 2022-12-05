@@ -68,8 +68,8 @@ public class FichaZombie implements Ficha{
         return move;
     }
     public int[][] makeEat(int x, int y, int i){
-        int[] vx = {-2,2,-2,2};
-        int[] vy = {-2,-2,2,2};
+        int[] vx = {2,2,-2,-2};
+        int[] vy = {-2,2,-2,2};
         int[][] move = new int[1][2];
         move[0][0] = x+vx[i];
         move[0][1] = y+vy[i];

@@ -35,10 +35,14 @@ public class FichaReina implements Ficha {
     }
     public boolean tipe(String ficha){
         boolean out = false;
+        System.out.println(ficha);
         if(Objects.equals(name, "qb")){
             out = Objects.equals(ficha, "b") || Objects.equals(ficha, "qb") || Objects.equals(ficha, "nb") || Objects.equals(ficha, "zb");
+            System.out.println(Objects.equals(ficha, "b")+" b");
+            System.out.println(out+"qb");
         }else if(Objects.equals(name, "qr")){
             out = Objects.equals(ficha, "r") || Objects.equals(ficha, "qr") || Objects.equals(ficha, "nr") || Objects.equals(ficha, "zr");;
+            System.out.println(out);
         }
         return out;
     }
@@ -56,8 +60,8 @@ public class FichaReina implements Ficha {
         return move;
     }
     public int[][] makeEat(int x, int y, int i){
-        int[] vx = {-2,2,-2,2};
-        int[] vy = {-2,-2,2,2};
+        int[] vx = {2,2,-2,-2};
+        int[] vy = {-2,2,-2,2};
         int[][] move = new int[1][2];
         move[0][0] = x+vx[i];
         move[0][1] = y+vy[i];
