@@ -11,19 +11,19 @@ import static java.lang.Integer.parseInt;
  */
 public class Checkers {
 
-    public  static int SIZE = 10;
+    public static int SIZE = 10;
 
     private String[][] board;
 
     private Color[][] boardColor;
-    private int redcheckers,bluecheckers,holderX,holderY,timer;
+    private int redcheckers, bluecheckers, holderX, holderY, timer;
 
     private char turno;
     private String holder;
 
     /**
      * Metodo construtor de la clase checkers
-    */
+     */
     public Checkers() {
 
         board = new String[SIZE][SIZE];
@@ -34,25 +34,26 @@ public class Checkers {
 
         generateMatrix();
     }
+
     public String[][] getBoard() {
         return board;
     }
 
 
-
     /**
      * Genera una matriz de caracteres
+     *
      * @return elementos de tipo char
      */
-    public String[][] generateMatrix(){
-        for (int i=0;i<SIZE;i++) {
+    public String[][] generateMatrix() {
+        for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
                 if (((j % 2 == 0) && (i % 2 == 0)) || ((j % 2 == 1) && (i % 2 == 1))) {
                     board[i][j] = ".";
-                }else{
+                } else {
                     if (j < 4) {
                         board[i][j] = "r";
-                    } else if (j>3 && j < 6) {
+                    } else if (j > 3 && j < 6) {
                         board[i][j] = "_";
                     } else if (j > 5) {
                         board[i][j] = "b";
@@ -61,46 +62,50 @@ public class Checkers {
             }
         }
         board[2][5] = "t";
-        board[7][4] = "t" ;
+        board[7][4] = "t";
         board[5][4] = "m";
         board[3][4] = "j";
-        return  board;
+        return board;
     }
+
     /**
      * retorna numero de fichas del jugador 2 actuales
      */
     public int getBluecheckers() {
         return bluecheckers;
     }
+
     /**
      * retorna numero de fichas del jugador 1 actuales
      */
     public int getRedcheckers() {
         return redcheckers;
     }
+
     /**
      * imprime el tablero
      */
     public void printBoard() {
-        int i,j;
+        int i, j;
         System.out.println("  0 1 2 3 4 5 6 7 8 9 X");
-        for (i=0;i<SIZE;i++) {
-            System.out.print((i+1) + " ");
-            for (j=0;j<SIZE;j++) {
+        for (i = 0; i < SIZE; i++) {
+            System.out.print((i + 1) + " ");
+            for (j = 0; j < SIZE; j++) {
                 System.out.print(board[j][i] + " ");
             }
             System.out.println();
         }
         System.out.println("y");
     }
+
     /**
-     * Determina el siguiente movimeinto
+     * Determina el siguiente turno
      */
     public void getNextMove() throws IOException {
 
         Scanner stdin = new Scanner(System.in);
 
-        if (turno =='r')
+        if (turno == 'r')
             System.out.println("It is your turn, red.");
         else
             System.out.println("It is your turn, blue.");
@@ -112,7 +117,7 @@ public class Checkers {
 
             int xto = stdin.nextInt();
             int yto = stdin.nextInt();
-            validMove( xfrom, yfrom,  xto,  yto);
+            validMove(xfrom, yfrom, xto, yto);
         }
 
         if (turno == 'r')
@@ -120,18 +125,18 @@ public class Checkers {
         else
             turno = 'r';
     }
+
     /**
-     * Reali
+     * Realiza el movimiento de las fichas
      *
-     * za el movimiento de las fichas
      * @param x posicion x en el tablero del elemento
      * @param y posicion y en el tablero del elemento
      * @return matriz de numeros enteros
      */
     public int[][] goMove(int x, int y) {
         int viewAll[][] = new int[8][2];
-        int vectorX[] = {-1,1,-1,1};
-        int vectorY[] = {-1,-1,1,1};
+        int vectorX[] = {-1, 1, -1, 1};
+        int vectorY[] = {-1, -1, 1, 1};
         int in = board[x][y].equals("r") ? 2 : 0, en = board[x][y] == "b" ? 2 : 4;
         String siguiente;
         siguiente = board[x][y].equals("r") || board[x][y].equals("qr") ? "b" : "r";
@@ -149,184 +154,174 @@ public class Checkers {
         return viewAll;
     }
 
-    public void addPower(){
-        for(int i = 0; i < 10 ; i++) {
+    public void addPower() {
+        for (int i = 0; i < 10; i++) {
             if (board[i][0].equals("b")) {
-                goPower( i,  0, "reina",  'b');
+                goPower(i, 0, "reina", 'b');
             }
             if (board[i][9].equals("r")) {
-                goPower( i,  9, "reina",  'r');
+                goPower(i, 9, "reina", 'r');
             }
         }
     }
+
     public void goPower(int x, int y, String power, char bando) {
-        if(bando == 'r') {
+        if (bando == 'r') {
             if (power.equals("reina")) {
                 board[x][y] = "qr";
             }
-        }
-        else{
+        } else {
             if (power.equals("reina")) {
                 board[x][y] = "qb";
             }
         }
     }
+
     /**
      * Valida si un movieminto si es valido
+     *
      * @param xfrom posicion en x de origen
      * @param yfrom posicion en y de origen
-     * @param xto posicion en x de destino
-     * @param yto posicion en y de destino
+     * @param xto   posicion en x de destino
+     * @param yto   posicion en y de destino
      */
     public void validMove(int xfrom, int yfrom, int xto, int yto) {
         Boolean isValid;
         boolean moved = false;
 
         if (xfrom < 0 || xfrom > 9 || yfrom < 0 || yfrom > 9 ||
-                xto < 0 || xto > 9 || yto < 0 || yto > 9){
+                xto < 0 || xto > 9 || yto < 0 || yto > 9) {
             isValid = false;
         }
 
-            if (Math.abs(xfrom-xto)==1) {
-                if ((turno == 'r') && (yto - yfrom == 1))
-                    isValid =  true;
-                else if ((turno == 'b') && (yto - yfrom == -1))
-                    isValid = true;
-            }
-
-            else if (Math.abs(xfrom-xto)==2) {
-                if (turno == 'r' && (yto - yfrom == 2) &&
-                        board[(xfrom + xto) / 2][(yfrom + yto) / 2].equals("b"))
-                    isValid =  true;
-                else if (turno == 'b' && (yto - yfrom == -2) &&
-                        board[(xfrom + xto) / 2][(yfrom + yto) / 2].equals("r"))
-                    isValid = true;
-            }
+        if (Math.abs(xfrom - xto) == 1) {
+            if ((turno == 'r') && (yto - yfrom == 1))
+                isValid = true;
+            else if ((turno == 'b') && (yto - yfrom == -1))
+                isValid = true;
+        } else if (Math.abs(xfrom - xto) == 2) {
+            if (turno == 'r' && (yto - yfrom == 2) &&
+                    board[(xfrom + xto) / 2][(yfrom + yto) / 2].equals("b"))
+                isValid = true;
+            else if (turno == 'b' && (yto - yfrom == -2) &&
+                    board[(xfrom + xto) / 2][(yfrom + yto) / 2].equals("r"))
+                isValid = true;
+        }
 
 
-        if(isValid = true){
-            executeMove( xfrom, yfrom, xto, yto);
+        if (isValid = true) {
+            executeMove(xfrom, yfrom, xto, yto);
             moved = true;
         }
     }
 
     /**
      * Ejecuta el movimiento
+     *
      * @param xfrom Posicion en x del punto de partida
      * @param yfrom Posicion en y del punto de partida
-     * @param xto Posicion en x del punto de llegada
-     * @param yto Posicion en y del puntode llegada
+     * @param xto   Posicion en x del punto de llegada
+     * @param yto   Posicion en y del puntode llegada
      */
 
     public void executeMove(int xfrom, int yfrom, int xto, int yto) {
-        if((board[xto][yto] == "m")){
-            if(board[xto][yto-2] == "r" || board[xto][yto-2] == "b"){
-                if(board[xto][yto-2] == "r"){
-                    board[xto][yto-2] = "_";
+        //mine
+        if ((board[xto][yto] == "m")) {
+            if (board[xto][yto - 2] == "r" || board[xto][yto - 2] == "b") {
+                if (board[xto][yto - 2] == "r") {
+                    board[xto][yto - 2] = "_";
                     redcheckers--;
-                }
-                else{
-                    board[xto][yto-2] = "_";
+                } else {
+                    board[xto][yto - 2] = "_";
                     bluecheckers--;
                 }
             }
-            if(board[xto - 1][yto - 1] == "r" || board[xto - 1][yto - 1] == "b"){
-                if(board[xto - 1][yto - 1] == "r"){
+            if (board[xto - 1][yto - 1] == "r" || board[xto - 1][yto - 1] == "b") {
+                if (board[xto - 1][yto - 1] == "r") {
                     board[xto - 1][yto - 1] = "_";
                     redcheckers--;
-                }
-                else{
+                } else {
                     board[xto - 1][yto - 1] = "_";
                     bluecheckers--;
                 }
             }
-            if(board[xto - 1][yto + 1] == "r" || board[xto - 1][yto + 1] == "b"){
-                if(board[xto - 1][yto + 1] == "r"){
-                    board[xto - 1][yto + 1] = "_";
+            if (board[xto + 1][yto - 1] == "r" || board[xto + 1][yto - 1] == "b") {
+                if (board[xto + 1][yto - 1] == "r") {
+                    board[xto + 1][yto - 1] = "_";
                     redcheckers--;
-                }
-                else{
-                    board[xto - 1][yto + 1] = "_";
+                } else {
+                    board[xto + 1][yto - 1] = "_";
                     bluecheckers--;
                 }
             }
-            if(board[xto - 2][yto] == "r" || board[xto - 2][yto] == "b"){
-                if(board[xto - 2][yto] == "r"){
+            if (board[xto - 2][yto] == "r" || board[xto - 2][yto] == "b") {
+                if (board[xto - 2][yto] == "r") {
                     board[xto - 2][yto] = "_";
                     redcheckers--;
-                }
-                else{
+                } else {
                     board[xto - 2][yto] = "_";
                     bluecheckers--;
                 }
             }
-            if(board[xto + 2][yto] == "r" || board[xto + 2][yto] == "b"){
-                if(board[xto + 2][yto] == "r"){
+            if (board[xto + 2][yto] == "r" || board[xto + 2][yto] == "b") {
+                if (board[xto + 2][yto] == "r") {
                     board[xto + 2][yto] = "_";
                     redcheckers--;
-                }
-                else{
+                } else {
                     board[xto + 2][yto] = "_";
                     bluecheckers--;
                 }
             }
-            if(board[xto - 1][yto + 1] == "r" || board[xto - 1][yto + 1] == "b"){
-                if(board[xto - 1][yto + 1] == "r"){
+            if (board[xto - 1][yto + 1] == "r" || board[xto - 1][yto + 1] == "b") {
+                if (board[xto - 1][yto + 1] == "r") {
                     board[xto - 1][yto + 1] = "_";
                     redcheckers--;
-                }
-                else{
+                } else {
                     board[xto - 1][yto + 1] = "_";
                     bluecheckers--;
                 }
             }
-            if(board[xto + 1][yto + 1] == "r" || board[xto + 1][yto + 1] == "b"){
-                if(board[xto + 1][yto + 1] == "r"){
+            if (board[xto + 1][yto + 1] == "r" || board[xto + 1][yto + 1] == "b") {
+                if (board[xto + 1][yto + 1] == "r") {
                     board[xto + 1][yto + 1] = "_";
                     redcheckers--;
-                }
-                else{
+                } else {
                     board[xto + 1][yto + 1] = "_";
                     bluecheckers--;
                 }
             }
-            if(board[xto][yto + 2] == "r" || board[xto][yto + 2] == "b"){
-                if(board[xto][yto + 2] == "r"){
+            if (board[xto][yto + 2] == "r" || board[xto][yto + 2] == "b") {
+                if (board[xto][yto + 2] == "r") {
                     board[xto][yto + 2] = "_";
                     redcheckers--;
-                }
-                else{
+                } else {
                     board[xto][yto + 2] = "_";
                     bluecheckers--;
                 }
             }
-            if(board[xfrom][yfrom] == "r" ){
-                redcheckers--;
-            }
-            else{
-                bluecheckers--;
-            }
+
             board[xto][yto] = "_";
 
 
-        }else if((board[xfrom][yfrom] == "b" || board[xfrom][yfrom] == "r") && board[xto][yto] == "t") {
-            if((board[xfrom][yfrom] == "b")){
+        }
+        //Teleport
+        else if ((board[xfrom][yfrom] == "b" || board[xfrom][yfrom] == "r") && board[xto][yto] == "t") {
+            if ((board[xfrom][yfrom] == "b")) {
                 board[xto][yto] = "_";
                 board[xfrom][yfrom] = "_";
-                for(int i = 0; i < board.length; i++){
-                    for(int j = 0; j < board[i].length; j++){
-                        if(board[i][j] == "t"){
+                for (int i = 0; i < board.length; i++) {
+                    for (int j = 0; j < board[i].length; j++) {
+                        if (board[i][j] == "t") {
                             board[i][j] = "b";
                         }
                     }
                 }
-            }
-            else {
+            } else {
                 board[xto][yto] = "_";
                 board[xfrom][yfrom] = "_";
-                for(int i = 0; i < board.length; i++){
-                    for(int j = 0; j < board[i].length; j++){
-                        if(board[i][j] == "t"){
+                for (int i = 0; i < board.length; i++) {
+                    for (int j = 0; j < board[i].length; j++) {
+                        if (board[i][j] == "t") {
                             board[i][j] = "r";
                         }
                     }
@@ -334,7 +329,8 @@ public class Checkers {
 
             }
         }
-        else if((board[xfrom][yfrom] == "b" || board[xfrom][yfrom] == "r") && board[xto][yto] == "j"){
+        //Jail
+        else if ((board[xfrom][yfrom] == "b" || board[xfrom][yfrom] == "r") && board[xto][yto] == "j") {
             holder = board[xfrom][yfrom];
             holderX = xto;
             holderY = yto;
@@ -343,53 +339,60 @@ public class Checkers {
             timer = 4;
 
         }
-
+        //Normal move
         else {
             String comodin = board[xfrom][yfrom];
             board[xfrom][yfrom] = board[xto][yto];
             board[xto][yto] = comodin;
+        }
+        if (Math.abs(xto - xfrom) == 2) {
+            board[(xfrom + xto) / 2][(yfrom + yto) / 2] = "_";
+            if (turno == 'r') {
+                bluecheckers--;
+            } else {
+                redcheckers--;
             }
-            if (Math.abs(xto - xfrom) == 2) {
-                board[(xfrom + xto) / 2][(yfrom + yto) / 2] = "_";
-                if (turno == 'r') {
-                    bluecheckers--;
-                } else {
-                    redcheckers--;
-                }
-            }
-            timer--;
-            if(timer == 0){
-                board[holderX][holderY] = holder;
-            }
-            System.out.println(timer);
-            colorMatriz();
-            printBoard();
+        }
+        timer--;
+        if (timer == 0) {
+            board[holderX][holderY] = holder;
+        }
+        colorMatriz();
+        printBoard();
 
     }
 
     /**
      * fabrica la matriz que representa el tablero de forma logica
      */
-    public void colorMatriz(){
-        for(int i = 0; i < board.length; i++){
-            for(int j = 0; j < board[0].length; j++){
-                if(board[i][j].equals("r")){
+    public void colorMatriz() {
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                if (board[i][j].equals("r")) {
                     boardColor[i][j] = Color.RED;
-                }if (board[i][j].equals("_")) {
+                }
+                if (board[i][j].equals("_")) {
                     boardColor[i][j] = Color.BLACK;
-                }if(board[i][j].equals("b")){
+                }
+                if (board[i][j].equals("b")) {
                     boardColor[i][j] = Color.BLUE;
-                }if(board[i][j].equals("jr")){
+                }
+                if (board[i][j].equals("jr")) {
                     boardColor[i][j] = Color.CYAN;
-                }if(board[i][j].equals("m")){
+                }
+                if (board[i][j].equals("m")) {
                     boardColor[i][j] = Color.GREEN;
-                }if(board[i][j].equals("t")){
+                }
+                if (board[i][j].equals("t")) {
                     boardColor[i][j] = Color.magenta;
-                }if(board[i][j].equals("j")){
+                }
+                if (board[i][j].equals("j")) {
                     boardColor[i][j] = Color.PINK;
-                }if(board[i][j].equals("qb")){
+                }
+                if (board[i][j].equals("qb")) {
                     boardColor[i][j] = Color.BLUE;
-                }if(board[i][j].equals("qr")){
+                }
+                if (board[i][j].equals("qr")) {
                     boardColor[i][j] = Color.RED;
                 }
             }
@@ -399,14 +402,16 @@ public class Checkers {
 
     /**
      * Retorna una matriz de colores
+     *
      * @return Matriz de elementos tipo color
      */
-    public Color[][] getColorMatriz(){
+    public Color[][] getColorMatriz() {
         return boardColor;
     }
 
     /**
      * Determina si el juego ya ha acabado
+     *
      * @return boolean
      */
     public boolean gameOver() {
@@ -415,6 +420,7 @@ public class Checkers {
 
     /**
      * determina quien es el ganador
+     *
      * @return
      */
     public String winnerIs() {
