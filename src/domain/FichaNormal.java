@@ -33,7 +33,7 @@ public class FichaNormal implements Ficha {
             setColor(Color.BLACK);
         }
     }
-    public boolean tipe(String ficha){
+    public boolean type(String ficha){
         boolean out = false;
         if(Objects.equals(name, "b")){
             out = Objects.equals(ficha, "b") || Objects.equals(ficha, "qb");

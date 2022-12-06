@@ -3,9 +3,9 @@ package domain;
 import java.awt.*;
 
 public class CasillaMine extends Casilla{
+    private Color color;
     private String name;
     private  int x,y;
-    private Color color;
     /**
      * Clase constructora de Casilla
      *
@@ -18,45 +18,57 @@ public class CasillaMine extends Casilla{
         this.x = x;
         this.y = y;
         this.name = name;
-        this.color = Color.YELLOW;
+        this.color  = Color.green;
     }
-    public Casilla[][] perimeter(){
-        Casilla [][] perimeter = new Casilla[5][5];
-        return perimeter;
-    }
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    @Override
+    /**
+     * Retorna el color del objeto
+     * @return Color
+     */
     public Color getColor() {
         return color;
     }
 
-    public void setColor(Color color) {
-        this.color = color;
+    /**
+     * Retorna la posicion en x del objeto
+     * @return
+     */
+    public int getX() {
+        return x;
+    }
+
+    /**
+     * Retorna posicion del objeto en y
+     *
+     * @param y entero que establece la posicion en y
+     * @return
+     */
+    public int getY(int y) {
+        return y;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    public int[][] perimeter(int x ,int y){
+        int[][] perimeter = new int[5][2];
+        perimeter[0][0] = x;
+        perimeter[0][1] = y;
+
+        perimeter[1][0] = x - 1;
+        perimeter[1][1] = y - 1;
+
+        perimeter[2][0] = x + 1;
+        perimeter[2][1] = y - 1;
+
+        perimeter[3][0] = x - 1;
+        perimeter[3][1] = y + 1;
+
+        perimeter[4][0] = x + 1;
+        perimeter[4][1] = y + 1;
+        return perimeter;
     }
 }

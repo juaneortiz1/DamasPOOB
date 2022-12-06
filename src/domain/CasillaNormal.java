@@ -3,9 +3,9 @@ package domain;
 import java.awt.*;
 
 public class CasillaNormal extends Casilla{
+    private Color color;
     private String name;
     private  int x,y;
-    private Color color;
     /**
      * Clase constructora de Casilla
      *
@@ -18,42 +18,41 @@ public class CasillaNormal extends Casilla{
         this.x = x;
         this.y = y;
         this.name = name;
-        this.color = Color.BLACK;
+        this.color  =  Color.BLACK;
     }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    @Override
+    /**
+     * Retorna el color del objeto
+     * @return Color
+     */
     public Color getColor() {
         return color;
     }
 
-    public void setColor(Color color) {
-        this.color = color;
+    /**
+     * Retorna la posicion en x del objeto
+     * @return
+     */
+    public int getX() {
+        return x;
+    }
+
+    /**
+     * Retorna posicion del objeto en y
+     *
+     * @param y entero que establece la posicion en y
+     * @return
+     */
+    public int getY(int y) {
+        return y;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
+
+
