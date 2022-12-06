@@ -39,10 +39,9 @@ public class CasillaTeleport extends Casilla {
     /**
      * Retorna posicion del objeto en y
      *
-     * @param y entero que establece la posicion en y
      * @return
      */
-    public int getY(int y) {
+    public int getY() {
         return y;
     }
 
@@ -53,9 +52,15 @@ public class CasillaTeleport extends Casilla {
     public void setName(String name) {
         this.name = name;
     }
-    public void teleport(){
 
+    public void setX(int x) {
+        this.x = x;
     }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
 }
 
 

@@ -70,12 +70,17 @@ public class Checkers {
             }
         }
         CasillaMine casilla = new CasillaMine(5, 4, "m");
+        CasillaTeleport casilla1 = new CasillaTeleport(2, 5, "t");
+        CasillaTeleport casilla2 = new CasillaTeleport(7,4,"t");
+        CasillaJail casilla3 = new CasillaJail(3,4,"j");
         casillas[5][4] = casilla;
+        casillas[2][5] = casilla1;
+        casillas[7][4] = casilla2;
+        casillas[3][4] = casilla3;
         board[5][4] = casilla.getName();
-        /*board[2][5] = "t";
-        board[7][4] = "t" ;
-
-        board[3][4] = "j";*/
+        board[2][5] = casilla1.getName();
+        board[7][4] = casilla2.getName();
+        board[3][4] = casilla3.getName();
         return board;
     }
 
@@ -255,6 +260,27 @@ public class Checkers {
 
                 }
             }
+        }
+        else if(casillas[xto][yto].getName().equals("t")){
+            CasillaNormal againNormal = new CasillaNormal(xto,yto,"_");
+            casillas[xto][yto] = againNormal;
+            board[xto][yto] = againNormal.getName();
+            for(int i = 0; i < board.length; i++){
+                for(int j = 0; j < board.length; j++){
+                    if(board[i][j].equals("t")){
+                        CasillaNormal againNormal1 = new CasillaNormal(i,j,"_");
+                        casillas[i][j] = againNormal1;
+                        fichas[i][j] = fichas[xto][yto];
+                        board[i][j] = fichas[i][j].getName();
+                        fichas[xto][yto].isdead();
+                    }
+                }
+            }
+        }
+        else if(casillas[xto][yto].getName().equals("j")){
+            CasillaNormal againNormal = new CasillaNormal(xto,yto,"_");
+            CasillaNormal catched = new CasillaNormal(xto,yto,"jr");
+            casillas[xto][yto] = catched;
         }
 
         board[xfrom][yfrom] = fichas[xfrom][yfrom].getName();
