@@ -51,7 +51,7 @@ public class Checkers {
                     board[i][j] = ".";
                 }else{
                     FichaNormal ficha = new FichaNormal(i, j, "r",Color.red);
-                    Casilla casilla = new Casilla(i,j,"_");
+                    CasillaNormal casilla = new CasillaNormal(i,j,"_");
                     if (j < 4) {
                         fichas[i][j] = ficha;
                         board[i][j] = fichas[i][j].getName();
@@ -67,10 +67,12 @@ public class Checkers {
                 }
             }
         }
-
+        CasillaMine casilla = new CasillaMine(5,4,"m");
+        casillas[5][4] = casilla;
+        board[5][4] = casilla.getName();
         /*board[2][5] = "t";
         board[7][4] = "t" ;
-        board[5][4] = "m";
+
         board[3][4] = "j";*/
         return  board;
     }
@@ -229,8 +231,27 @@ public class Checkers {
         FichaNormal fDead = new FichaNormal(xfrom,yfrom,"_", Color.BLACK);
         fichas[xfrom][yfrom] =  fDead;
 
+        if(casillas[xto][yto].getName().equals("m")){
+            CasillaMine casillaMine = new CasillaMine(xto,yto,"m");
+            Casilla [][] explodes = casillaMine.perimeter();
+            int beginx = xto - 2;
+            int beginy = yto - 2;
+            for(int i = 0; i < explodes.length ; i =  i + 2){
+                    for(int j = 0; j < explodes[i].length ;j = j + 2){
+                        if(fichas[beginx + i][beginy + j] != null ) {
+                            System.out.println(beginx + " posx");
+                            System.out.println(beginy +  " posy");
+                            System.out.println(fichas[beginx + i][beginy + j].getLive());
+                            fichas[xto + i][yto + j].isdead();
+                        }
+                    }
+            }
+        }
+
         board[xfrom][yfrom] = fichas[xfrom][yfrom].getName();
         board[xto][yto] = fichas[xto][yto].getName();
+
+
         if (Math.abs(xto - xfrom) == 2) {
             fichas[(xfrom + xto) / 2][(yfrom + yto) / 2].isdead();
             board[(xfrom + xto) / 2][(yfrom + yto) / 2] = fichas[(xfrom + xto) / 2][(yfrom + yto) / 2].getName();

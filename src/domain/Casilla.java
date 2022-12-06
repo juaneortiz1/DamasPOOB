@@ -12,7 +12,6 @@ public class Casilla {
 
     /**
      * Clase constructora de Casilla
-     * @param color objeto tipo color
      * @param x posicion del objeto en x
      * @param y posicion del objeto en y
      */
