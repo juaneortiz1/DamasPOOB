@@ -18,7 +18,7 @@ public class CasillaMine extends Casilla{
         this.x = x;
         this.y = y;
         this.name = name;
-        this.color  = Color.magenta;
+        this.color  = Color.DARK_GRAY;
     }
     /**
      * Retorna el color del objeto

@@ -8,7 +8,6 @@ public class CasillaTeleport extends Casilla {
     private  int x,y;
     /**
      * Clase constructora de Casilla
-     *
      * @param x    posicion del objeto en x
      * @param y    posicion del objeto en y
      * @param name

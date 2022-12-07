@@ -75,12 +75,13 @@ public class Checkers {
         CasillaJail casilla3 = new CasillaJail(3,4,"j");
         casillas[5][4] = casilla;
         casillas[2][5] = casilla1;
-        casillas[7][4] = casilla2;
+        casillas[9][4] = casilla2;
         casillas[3][4] = casilla3;
         board[5][4] = casilla.getName();
         board[2][5] = casilla1.getName();
-        board[7][4] = casilla2.getName();
+        board[9][4] = casilla2.getName();
         board[3][4] = casilla3.getName();
+        System.out.println(casilla1.getColor());
         return board;
     }
 
@@ -148,10 +149,9 @@ public class Checkers {
         int[][] view = new int[4][2];
         for (int i = 0; i < viewAll.length; i++) {
             if ((viewAll[i][0] >= 0 && viewAll[i][0] < 10) && (viewAll[i][1] >= 0 && viewAll[i][1] < 10)) {
-                if (board[viewAll[i][0]][viewAll[i][1]].equals("_")) {
+                if (board[viewAll[i][0]][viewAll[i][1]].equals("_")||board[viewAll[i][0]][viewAll[i][1]].equals("j")||board[viewAll[i][0]][viewAll[i][1]].equals("t")||board[viewAll[i][0]][viewAll[i][1]].equals("m")) {
                     view[i][0] = viewAll[i][0];
                     view[i][1] = viewAll[i][1];
-
                 } else if (!fichas[x][y].tipe(board[viewAll[i][0]][viewAll[i][1]]) && (fichas[x][y].makeEat(x, y, i)[0][0] >= 0 && fichas[x][y].makeEat(x, y, i)[0][0] < 10) && (fichas[x][y].makeEat(x, y, i)[0][1] >= 0 && fichas[x][y].makeEat(x, y, i)[0][1] < 10) && !board[viewAll[i][0]][viewAll[i][1]].equals("_")) {
                     System.out.println(viewAll[i][0] + " " + viewAll[i][1]);
                     view[i][0] = fichas[x][y].makeEat(x, y, i)[0][0];
@@ -229,10 +229,47 @@ public class Checkers {
             }
         }
     }
-
+    public void powerCasillas(int xfrom, int yfrom, int xto, int yto){
+        switch (casillas[xto][yto].getName()) {
+            case "m" : {
+                CasillaMine casillaMine = new CasillaMine(xto, yto, "m");
+                int[][] explodes = casillaMine.perimeter(xto, yto);
+                for (int[] explode : explodes) {
+                    if ((explode[0] < 10 && 0 <= (explode[0]) || (((explode[1] < 10 && 0 <= explode[1]))))) {
+                        if (fichas[explode[0]][explode[1]] != null && !fichas[explode[0]][explode[1]].getName().equals("_")) {
+                            System.out.println("x " + explode[0] + " y " + explode[1] + "   " + fichas[explode[0]][explode[1]].getName());
+                            fichas[explode[0]][explode[1]].isdead();
+                            board[explode[0]][explode[1]] = fichas[explode[0]][explode[1]].getName();
+                        }
+                    }
+                }
+            }
+            case "t" : {
+                CasillaNormal againNormal = new CasillaNormal(xto, yto, "_");
+                casillas[xto][yto] = againNormal;
+                board[xto][yto] = againNormal.getName();
+                for (int i = 0; i < board.length; i++) {
+                    for (int j = 0; j < board.length; j++) {
+                        if (board[i][j].equals("t")) {
+                            Ficha ficha = fichas[xfrom][yfrom];
+                            fichas[i][j] = ficha;
+                            FichaNormal fDead = new FichaNormal(xfrom, yfrom, "_", Color.BLACK);
+                            fichas[xfrom][yfrom] = fDead;
+                            board[xfrom][yfrom] = fichas[xfrom][yfrom].getName();
+                            board[i][i] = fichas[i][j].getName();
+                        }
+                    }
+                }
+                break;
+            }
+            case "j" : {
+                fichas[xfrom][yfrom].setColor(Color.orange);
+                break;
+            }
+        }
+    }
     /**
      * Ejecuta el movimiento
-     *
      * @param xfrom Posicion en x del punto de partida
      * @param yfrom Posicion en y del punto de partida
      * @param xto   Posicion en x del punto de llegada
@@ -240,52 +277,15 @@ public class Checkers {
      */
 
     public void executeMove(int xfrom, int yfrom, int xto, int yto) {
+        if(casillas[xto][yto] != null){
+            powerCasillas( xfrom, yfrom, xto,  yto);
+        }
         Ficha ficha = fichas[xfrom][yfrom];
         fichas[xto][yto] = ficha;
         FichaNormal fDead = new FichaNormal(xfrom, yfrom, "_", Color.BLACK);
         fichas[xfrom][yfrom] = fDead;
-
-        if (casillas[xto][yto].getName().equals("m")) {
-            CasillaMine casillaMine = new CasillaMine(xto, yto, "m");
-            int[][] explodes = casillaMine.perimeter(xto, yto);
-            for (int i = 0; i < explodes.length; i++) {
-
-                if ((explodes[i][0] < 10 && 0 <= (explodes[i][0]) || (((explodes[i][1] < 10 && 0 <= explodes[i][1]))))) {
-                    if (fichas[explodes[i][0]][explodes[i][1]] != null) {
-                        fichas[explodes[i][0]][explodes[i][1]].isdead();
-                        board[explodes[i][0]][explodes[i][1]] = fichas[explodes[i][0]][explodes[i][1]].getName();
-
-
-                    }
-
-                }
-            }
-        }
-        else if(casillas[xto][yto].getName().equals("t")){
-            CasillaNormal againNormal = new CasillaNormal(xto,yto,"_");
-            casillas[xto][yto] = againNormal;
-            board[xto][yto] = againNormal.getName();
-            for(int i = 0; i < board.length; i++){
-                for(int j = 0; j < board.length; j++){
-                    if(board[i][j].equals("t")){
-                        CasillaNormal againNormal1 = new CasillaNormal(i,j,"_");
-                        casillas[i][j] = againNormal1;
-                        fichas[i][j] = fichas[xto][yto];
-                        board[i][j] = fichas[i][j].getName();
-                        fichas[xto][yto].isdead();
-                    }
-                }
-            }
-        }
-        else if(casillas[xto][yto].getName().equals("j")){
-            CasillaNormal againNormal = new CasillaNormal(xto,yto,"_");
-            CasillaNormal catched = new CasillaNormal(xto,yto,"jr");
-            casillas[xto][yto] = catched;
-        }
-
         board[xfrom][yfrom] = fichas[xfrom][yfrom].getName();
         board[xto][yto] = fichas[xto][yto].getName();
-
 
         if (Math.abs(xto - xfrom) == 2) {
             fichas[(xfrom + xto) / 2][(yfrom + yto) / 2].isdead();
@@ -296,7 +296,6 @@ public class Checkers {
                 bluecheckers--;
             }
         }
-
         timer--;
         if (timer == 0) {
             board[holderX][holderY] = holder;
@@ -319,7 +318,6 @@ public class Checkers {
                 }
             }
         }
-
     }
 
     /**
