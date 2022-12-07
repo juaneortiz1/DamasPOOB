@@ -20,7 +20,7 @@ public class Checkers {
     private int redcheckers, bluecheckers, holderX, holderY, timer;
 
     private char turno;
-    private String holder;
+    private Ficha holder;
 
     /**
      * Metodo construtor de la clase checkers
@@ -263,7 +263,11 @@ public class Checkers {
                 break;
             }
             case "j" : {
+                holderX = xto;
+                holderY = yto;
+                holder = fichas[xfrom][yfrom];
                 fichas[xfrom][yfrom].setColor(Color.orange);
+                timer = 4;
                 break;
             }
         }
@@ -298,7 +302,7 @@ public class Checkers {
         }
         timer--;
         if (timer == 0) {
-            board[holderX][holderY] = holder;
+            fichas[holderX][holderY].setColor(Color.red);
         }
 
         colorMatriz();
