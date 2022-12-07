@@ -1,5 +1,8 @@
 package presentation;
 
+import domain.DamasPOOBExcepcion;
+import persistence.DamasPOOBIO;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
@@ -7,6 +10,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 /**
  * Ventana principal del programa
@@ -20,6 +27,7 @@ public class DamasPOOBGUI extends JFrame {
     private static final int HIGH = 720;
     private static final Dimension DIMENSION =
             new Dimension(WIDTH, HIGH);
+
 
     /**
      * Constructor de la clase
@@ -90,13 +98,29 @@ public class DamasPOOBGUI extends JFrame {
     }
 
     private void opGuardar() {
-        JFileChooser fileChooser = new JFileChooser();
-        //FILTRA TODOS LOS ARCHIVOS Y SOLO DEJA LOS VISIBLES
-        //LOS QUE TENGAN EXTENSION .DAT.
-        fileChooser.setFileFilter(new FileNameExtensionFilter("Archivo con extensión .DAT","DAT"));
-        int seleccion = fileChooser.showSaveDialog(this);
-        if (seleccion == JFileChooser.APPROVE_OPTION) {
-            //this..guarde01(fileChooser.getSelectedFile());
+        try {
+            JFileChooser fileChooser = new JFileChooser();
+            //FILTRA TODOS LOS ARCHIVOS Y SOLO DEJA LOS VISIBLES
+            //LOS QUE TENGAN EXTENSION .DAT.
+            fileChooser.setFileFilter(new FileNameExtensionFilter("Archivo con extensión .txt", "txt"));
+            int seleccion = fileChooser.showSaveDialog(this);
+            if (seleccion == JFileChooser.APPROVE_OPTION) {
+                guarde01(fileChooser.getSelectedFile());
+            }
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(this,e.getMessage());
+        }
+    }
+    public void guarde01(File file) throws DamasPOOBExcepcion {
+        if (!file.getName().endsWith(".txt")) {
+            throw new DamasPOOBExcepcion(DamasPOOBExcepcion.TYPE_TXT_ERROR);
+        }
+        try {
+            ObjectOutputStream out= new ObjectOutputStream(new FileOutputStream(file));
+            out.writeObject(this);
+            out.close();
+        }catch(IOException e) {
+            throw new DamasPOOBExcepcion("Se salvó el archivo " + file.getName());
         }
     }
 

@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 /**
  * Clase que genera el tablero con el que interactara para jugar
  */
-public class  Tablero extends JPanel {
+public class    Tablero extends JPanel {
     private Casilla[][] casillas;
     private Ficha[][] fichas;
     private Checkers checkers;
