@@ -20,9 +20,7 @@ import java.io.ObjectOutputStream;
  */
 public class DamasPOOBGUI extends JFrame {
     private JMenuItem nuevo, abra,guarda,salir;
-    private Menu venmenu;
     private static final Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-    ;
     private static final int WIDTH = 800;
     private static final int HIGH = 720;
     private static final Dimension DIMENSION =
@@ -43,7 +41,7 @@ public class DamasPOOBGUI extends JFrame {
     public void prepareElements(){
         setTitle("DamasPOOB");
         setSize(DIMENSION);
-        venmenu = new Menu(this);
+        Menu venmenu = new Menu(this);
         add(venmenu);
         prepareElementosMenu();
     }
@@ -135,8 +133,6 @@ public class DamasPOOBGUI extends JFrame {
             frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         }
     }
-
-
 
     /**
      * Metodo que cierra el program al cerrar la ventana

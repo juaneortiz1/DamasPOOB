@@ -7,12 +7,12 @@ public class FichaNinja implements Ficha{
     private int x, y, live;
     private String name;
     private Color color;
-    public FichaNinja(int x, int y, String name,Color color) {
+    public FichaNinja(int x, int y, String name) {
         super();
         this.x = x;
         this.y = y;
         this.name = name;
-        this.color = color;
+        color = Objects.equals(name, "nb") ? Color.BLUE: Color.RED;
         live = 2;
     }
     public int getX() {return x;}
@@ -26,6 +26,7 @@ public class FichaNinja implements Ficha{
     public  String getName() {return name;}
     public  void setName(String name) {this.name = name;}
     public  void dead(){setName("_");}
+    public void toRevive(){}
     public  void isdead(){
         live -= 1;
         if(live < 1){

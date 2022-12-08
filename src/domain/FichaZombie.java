@@ -9,16 +9,16 @@ public class FichaZombie implements Ficha{
     private final String saveName;
     private Color color;
     private final Color saveColor;
-    public FichaZombie(int x, int y, String name,Color color) {
+    public FichaZombie(int x, int y, String name) {
         super();
         this.x = x;
         this.y = y;
         this.name = name;
-        this.color = color;
+        color = Objects.equals(name, "zb") ? Color.BLUE: Color.RED;
         saveColor = color;
         saveName = name;
         time = 3;
-        live = 2;
+        live = 1;
     }
     public int getX() {return x;}
     public void setX(int x) {this.x = x;}
@@ -39,11 +39,9 @@ public class FichaZombie implements Ficha{
         }
     }
     public void toRevive(){
-        time -= 1;
-        if(0 == time){
             setName(saveName);
             setColor(saveColor);
-        }
+            time = 3;
     }
     public boolean tipe(String ficha){
         boolean out = false;

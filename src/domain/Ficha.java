@@ -18,4 +18,5 @@ public interface Ficha {
     public default void dead(){}
     public default void isdead(){}
     public default boolean tipe(String ficha){return false;}
+    public default void toRevive(){}
 }

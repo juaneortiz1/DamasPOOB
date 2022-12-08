@@ -26,6 +26,7 @@ public class FichaNormal implements Ficha {
     public  String getName() {return name;}
     public  void setName(String name) {this.name = name;}
     public  void dead(){setName("_");}
+    public  void toRevive(){}
     public  void isdead(){
         live -= 1;
         if(live < 1){
