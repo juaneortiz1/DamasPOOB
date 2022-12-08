@@ -102,7 +102,7 @@ public class DamasPOOBGUI extends JFrame {
             JFileChooser fileChooser = new JFileChooser();
             //FILTRA TODOS LOS ARCHIVOS Y SOLO DEJA LOS VISIBLES
             //LOS QUE TENGAN EXTENSION .DAT.
-            fileChooser.setFileFilter(new FileNameExtensionFilter("Archivo con extensión .txt", "txt"));
+            fileChooser.setFileFilter(new FileNameExtensionFilter("Archivo con extensión .dat", "dat"));
             int seleccion = fileChooser.showSaveDialog(this);
             if (seleccion == JFileChooser.APPROVE_OPTION) {
                 guarde01(fileChooser.getSelectedFile());
@@ -112,7 +112,7 @@ public class DamasPOOBGUI extends JFrame {
         }
     }
     public void guarde01(File file) throws DamasPOOBExcepcion {
-        if (!file.getName().endsWith(".txt")) {
+        if (!file.getName().endsWith(".dat")) {
             throw new DamasPOOBExcepcion(DamasPOOBExcepcion.TYPE_TXT_ERROR);
         }
         try {
