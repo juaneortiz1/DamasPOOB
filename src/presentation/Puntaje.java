@@ -7,10 +7,8 @@ public class Puntaje  extends JPanel {
 
     public Puntaje(){
         setBackground(new Color(29,114,162));
-
         prepareElements();
         prepareActions();
-
     }
 
     private void prepareActions() {

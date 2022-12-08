@@ -5,19 +5,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 /**
  * Clase que genera el tablero con el que interactara para jugar
  */
-public class    Tablero extends JPanel {
-    private Casilla[][] casillas;
-    private Ficha[][] fichas;
-    private Checkers checkers;
-    private DamasPOOBGUI damasPOOBGUI;
+public class Tablero extends JPanel {
+    private final Casilla[][] casillas;
+    private final Ficha[][] fichas;
+    private final Checkers checkers;
+    private final DamasPOOBGUI damasPOOBGUI;
     private Ficha fichaSelect, casillaSelect;
     private boolean turno;
     private boolean decide;
-    private JPanel winner;
 
     /**
      * Constructor de la clase Tablero
@@ -39,8 +39,6 @@ public class    Tablero extends JPanel {
     public void prepararAcciones(){
         prepareElementsBoard();
         makeMatriz();
-
-
     }
 
     /**
@@ -48,6 +46,7 @@ public class    Tablero extends JPanel {
      */
     private void chooseWinner() {
         Tablero panel = this;
+        JPanel winner;
         if(checkers.getBluecheckers() == 0){
             winner = new JPanel();
             winner.setBackground(Color.RED);
@@ -89,11 +88,11 @@ public class    Tablero extends JPanel {
                             }
                             fichas[i][j] = ficha;
                             prepareActions(fichas[i][j]);
-                        } else if (j > 3 && j < 6) {
+                        } else if (j < 6) {
                             ficha.changeColor(Color.BLACK);
                             fichas[i][j] = ficha;
                             prepareActions(ficha);
-                        } else if (j > 5) {
+                        } else {
                             if (!turno) {
                                 ficha.acive();
                             }
@@ -134,6 +133,7 @@ public class    Tablero extends JPanel {
         turno = !turno;
         active(turno);
     }
+
 
     /**
      * Activa las fichas del turno actual y los espacios posibles para moverse
@@ -214,20 +214,13 @@ public class    Tablero extends JPanel {
     public void paint() {
         if(checkers.getBluecheckers() == 0 || checkers.getRedcheckers() == 0){
             decide = false;
-
         }
         if (decide) {
             Color[][] newColors = checkers.getColorMatriz();
             for (int i = 0; i < casillas.length; i++) {
                 for (int j = 0; j < casillas[0].length; j++) {
                     if (fichas[i][j] != null) {
-                        if (newColors[i][j] == Color.YELLOW ) {
-                            Ficha reina = new FichaReina(i,j);
-                            reina.changeColor(Color.YELLOW);
-                            fichas[i][j] = reina;
-                        } else{
-                            fichas[i][j].changeColor(newColors[i][j]);
-                        }
+                        fichas[i][j].changeColor(newColors[i][j]);
                     }
                 }
             }

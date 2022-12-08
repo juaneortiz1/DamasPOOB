@@ -11,16 +11,13 @@ import static java.lang.Integer.parseInt;
  */
 public class Checkers {
     public static int SIZE = 10;
-
     private final String[][] board;
     private final Ficha[][] fichas;
     private final Casilla[][] casillas;
-
     private final Color[][] boardColor;
-    private int redcheckers, bluecheckers, holderX, holderY, timer;
-
+    private int redcheckers, bluecheckers, holderX, holderY, timerCasilla, timerFicha;
     private char turno;
-    private Ficha holder;
+    private Color colorUp;
 
     /**
      * Metodo construtor de la clase checkers
@@ -33,17 +30,13 @@ public class Checkers {
         redcheckers = 20;
         bluecheckers = 20;
         turno = 'r';
-
         generateMatrix();
     }
-
     public String[][] getBoard() {
         return board;
     }
-
     /**
      * Genera una matriz de caracteres
-     *
      * @return elementos de tipo char
      */
     public String[][] generateMatrix() {
@@ -84,21 +77,18 @@ public class Checkers {
         System.out.println(casilla1.getColor());
         return board;
     }
-
     /**
      * retorna numero de fichas del jugador 2 actuales
      */
     public int getBluecheckers() {
         return bluecheckers;
     }
-
     /**
      * retorna numero de fichas del jugador 1 actuales
      */
     public int getRedcheckers() {
         return redcheckers;
     }
-
     /**
      * imprime el tablero
      */
@@ -114,14 +104,13 @@ public class Checkers {
         }
         System.out.println("y");
     }
-
     /**
      * Determina el siguiente movimeinto
      */
     public void getNextMove() throws IOException {
         Scanner stdin = new Scanner(System.in);
         boolean moved = false;
-        while (!moved) {
+        while(!moved) {
             int xfrom = stdin.nextInt();
             int yfrom = stdin.nextInt();
 
@@ -129,13 +118,12 @@ public class Checkers {
             int yto = stdin.nextInt();
             executeMove(xfrom, yfrom, xto, yto);
         }
-
-        if (turno == 'r')
+        if (turno == 'r') {
             turno = 'b';
-        else
+        }else {
             turno = 'r';
+        }
     }
-
     /**
      * Reali
      * za el movimiento de las fichas
@@ -153,7 +141,6 @@ public class Checkers {
                     view[i][0] = viewAll[i][0];
                     view[i][1] = viewAll[i][1];
                 } else if (!fichas[x][y].tipe(board[viewAll[i][0]][viewAll[i][1]]) && (fichas[x][y].makeEat(x, y, i)[0][0] >= 0 && fichas[x][y].makeEat(x, y, i)[0][0] < 10) && (fichas[x][y].makeEat(x, y, i)[0][1] >= 0 && fichas[x][y].makeEat(x, y, i)[0][1] < 10) && !board[viewAll[i][0]][viewAll[i][1]].equals("_")) {
-                    System.out.println(viewAll[i][0] + " " + viewAll[i][1]);
                     view[i][0] = fichas[x][y].makeEat(x, y, i)[0][0];
                     view[i][1] = fichas[x][y].makeEat(x, y, i)[0][1];
                 } else {
@@ -162,72 +149,56 @@ public class Checkers {
                 }
             }
         }
-        for (int i = 0; i < view.length; i++) {
-            System.out.print(view[i][0] + " ");
-            System.out.println(view[i][1]);
-        }
         return view;
     }
 
+
     public void addPower() {
+
         for (int i = 0; i < 10; i++) {
             if (board[i][0].equals("b")) {
-                goPower(i, 0, "reina", 'b');
+                //goPower(i, 0, "reina", 'b');
                 //goPower( i,  0, "ninja",  'b');
-                //goPower( i,  0, "zombie",  'b');
+                goPower( i,  0, "zombie",  'b');
             }
             if (board[i][9].equals("r")) {
-                goPower(i, 9, "reina", 'r');
+                //goPower(i, 9, "reina", 'r');
                 //goPower( i,  9, "ninja",  'r');
-                //goPower( i,  0, "zombie",  'r');
+                goPower( i,  9, "zombie",  'r');
             }
         }
     }
-
     public void goPower(int x, int y, String power, char bando) {
+        System.out.println(power);
+        Ficha ficha = null;
         if (bando == 'r') {
             switch (power) {
-                case "reina": {
-                    FichaReina queen = new FichaReina(x, y, "qr");
-                    fichas[x][y] = queen;
-                    board[x][y] = "qr";
+                case "reina": {ficha = new FichaReina(x, y, "qr");
                     break;
                 }
-                case "ninja": {
-                    FichaNinja ninja = new FichaNinja(x, y, "qr", Color.RED);
-                    fichas[x][y] = ninja;
-                    board[x][y] = "nr";
+                case "ninja": {ficha = new FichaNinja(x, y, "nr");
                     break;
                 }
-                case "zombie": {
-                    FichaZombie zombie = new FichaZombie(x, y, "zr", Color.RED);
-                    fichas[x][y] = zombie;
-                    board[x][y] = "zr";
+                case "zombie": {ficha = new FichaZombie(x, y, "zr");
                     break;
                 }
             }
         } else {
             switch (power) {
-                case "reina": {
-                    FichaReina queen = new FichaReina(x, y, "qb");
-                    fichas[x][y] = queen;
-                    board[x][y] = "qb";
+                case "reina": {ficha = new FichaReina(x, y, "qb");
                     break;
                 }
-                case "ninja": {
-                    FichaNinja ninja = new FichaNinja(x, y, "nb", Color.BLUE);
-                    fichas[x][y] = ninja;
-                    board[x][y] = "nb";
+                case "ninja": {ficha = new FichaNinja(x, y, "nb");
                     break;
                 }
-                case "zombie": {
-                    FichaZombie zombie = new FichaZombie(x, y, "zb", Color.BLUE);
-                    fichas[x][y] = zombie;
-                    board[x][y] = "zb";
+                case "zombie": {ficha = new FichaZombie(x, y, "zb");
                     break;
                 }
             }
         }
+        fichas[x][y] = ficha;
+        assert ficha != null;
+        board[x][y] = ficha.getName();
     }
     public void powerCasillas(int xfrom, int yfrom, int xto, int yto){
         switch (casillas[xto][yto].getName()) {
@@ -237,7 +208,6 @@ public class Checkers {
                 for (int[] explode : explodes) {
                     if ((explode[0] < 10 && 0 <= (explode[0]) || (((explode[1] < 10 && 0 <= explode[1]))))) {
                         if (fichas[explode[0]][explode[1]] != null && !fichas[explode[0]][explode[1]].getName().equals("_")) {
-                            System.out.println("x " + explode[0] + " y " + explode[1] + "   " + fichas[explode[0]][explode[1]].getName());
                             fichas[explode[0]][explode[1]].isdead();
                             board[explode[0]][explode[1]] = fichas[explode[0]][explode[1]].getName();
                         }
@@ -265,9 +235,9 @@ public class Checkers {
             case "j" : {
                 holderX = xto;
                 holderY = yto;
-                holder = fichas[xfrom][yfrom];
+                colorUp = fichas[xfrom][yfrom].getColor();
                 fichas[xfrom][yfrom].setColor(Color.orange);
-                timer = 4;
+                timerCasilla = 4;
                 break;
             }
         }
@@ -290,25 +260,42 @@ public class Checkers {
         fichas[xfrom][yfrom] = fDead;
         board[xfrom][yfrom] = fichas[xfrom][yfrom].getName();
         board[xto][yto] = fichas[xto][yto].getName();
-
         if (Math.abs(xto - xfrom) == 2) {
+            if(fichas[(xfrom + xto) / 2][(yfrom + yto) / 2].getName().equals("zb") || fichas[(xfrom + xto) / 2][(yfrom + yto) / 2].getName().equals("zr")){
+                holderX = (xfrom + xto) / 2;
+                holderY = (yfrom + yto) / 2;
+                timerFicha = 4;
+            }
             fichas[(xfrom + xto) / 2][(yfrom + yto) / 2].isdead();
             board[(xfrom + xto) / 2][(yfrom + yto) / 2] = fichas[(xfrom + xto) / 2][(yfrom + yto) / 2].getName();
-            if ("r".equals(fichas[(xfrom + xto) / 2][(yfrom + yto) / 2].getName())) {
+            System.out.println(fichas[(xfrom + xto) / 2][(yfrom + yto) / 2].getName());
+            if (redOrBlue(fichas[(xfrom + xto) / 2][(yfrom + yto) / 2])) {
                 redcheckers--;
             } else {
                 bluecheckers--;
             }
         }
-        timer--;
-        if (timer == 0) {
-            fichas[holderX][holderY].setColor(Color.red);
+        timerCasilla--;
+        timerFicha--;
+        System.out.println(timerFicha);
+        if (timerCasilla == 0) {
+            fichas[holderX][holderY].setColor(colorUp);
+        }
+        if (timerFicha == 0) {
+            if(board[holderX][holderY].equals("_")) {
+                fichas[holderX][holderY].toRevive();
+                board[holderX][holderY] = fichas[holderX][holderY].getName();
+                bluecheckers++;
+            }
         }
 
         colorMatriz();
         printBoard();
     }
 
+    public boolean redOrBlue(Ficha ficha){
+        return "r".equals(ficha.getName()) || "qr".equals(ficha.getName()) || "zr".equals(ficha.getName()) || "nr".equals(ficha.getName());
+    }
     /**
      * fabrica la matriz que representa el tablero de forma logica
      */
@@ -344,14 +331,13 @@ public class Checkers {
 
     /**
      * determina quien es el ganador
-     *
-     * @return
+     * @return winer
      */
     public String winnerIs() {
         return (bluecheckers == 0) ? "red" : "black";
     }
 
-    public static void main(String args[]) throws IOException {
+    public static void main() throws IOException {
         Checkers game = new Checkers();
         game.printBoard();
         while (!game.gameOver()) {
