@@ -70,11 +70,13 @@ public class Tablero extends JPanel {
      * Metodo que prepara los elementos de la clase
      */
     private void prepareElementsBoard() {
+        ImageIcon forBlue = new ImageIcon("chinese-checkers");
 
             for (int i = 0; i < casillas.length; i++) {
                 for (int j = 0; j < casillas[0].length; j++) {
                     CasillaNormal casilla = new CasillaNormal();
                     Ficha ficha = new Ficha(Color.RED, j, i);
+                    ficha.setPreferredSize(new Dimension(50, 50));
                     ficha.desacive();
                     if (((j % 2 == 0) && (i % 2 == 0)) || ((j % 2 == 1) && (i % 2 == 1))) {
                         casilla.setColor(Color.WHITE);
@@ -97,6 +99,7 @@ public class Tablero extends JPanel {
                                 ficha.acive();
                             }
                             ficha.changeColor(Color.BLUE);
+                            ficha.setIcon(new ImageIcon(forBlue.getImage().getScaledInstance(50,50, Image.SCALE_SMOOTH)));
                             fichas[i][j] = ficha;
                             prepareActions(fichas[i][j]);
                         }
@@ -166,7 +169,7 @@ public class Tablero extends JPanel {
             }
         }
         this.add(panelmatriz, BorderLayout.CENTER);
-        panelmatriz.setPreferredSize(new Dimension(350, 300));
+        panelmatriz.setPreferredSize(new Dimension(500, 500));
         add(panelmatriz);
         damasPOOBGUI.add(this);
     }
@@ -230,18 +233,4 @@ public class Tablero extends JPanel {
         }
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
