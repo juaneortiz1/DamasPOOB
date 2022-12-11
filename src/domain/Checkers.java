@@ -215,6 +215,7 @@ public class Checkers {
                         }
                     }
                 }
+                break;
             }
             case "t" : {
                 CasillaNormal againNormal = new CasillaNormal(xto, yto, "_");
@@ -223,12 +224,16 @@ public class Checkers {
                 for (int i = 0; i < board.length; i++) {
                     for (int j = 0; j < board.length; j++) {
                         if (board[i][j].equals("t")) {
-                            Ficha ficha = fichas[xfrom][yfrom];
-                            fichas[i][j] = ficha;
+                            System.out.println(board[i][j]);
+                            FichaNormal fichan = new FichaNormal(xfrom, yfrom, fichas[xfrom][yfrom].getName(), fichas[xfrom][yfrom].getColor());
+                            fichas[i][j] = fichan;
                             FichaNormal fDead = new FichaNormal(xfrom, yfrom, "_", Color.BLACK);
                             fichas[xfrom][yfrom] = fDead;
+                            System.out.println(i +" "+j);
                             board[xfrom][yfrom] = fichas[xfrom][yfrom].getName();
-                            board[i][i] = fichas[i][j].getName();
+                            System.out.println(fichas[i][j].getName());
+                            board[i][j] = fichas[i][j].getName();
+                            System.out.println(board[i][j]);
                         }
                     }
                 }
