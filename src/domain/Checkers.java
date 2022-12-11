@@ -211,8 +211,7 @@ public class Checkers {
                 for (int[] explode : explodes) {
                     if ((explode[0] < 10 && 0 <= (explode[0]) || (((explode[1] < 10 && 0 <= explode[1]))))) {
                         if (fichas[explode[0]][explode[1]] != null && !fichas[explode[0]][explode[1]].getName().equals("_")) {
-                            fichas[explode[0]][explode[1]].isdead();
-                            board[explode[0]][explode[1]] = fichas[explode[0]][explode[1]].getName();
+                            redOrBlue(fichas[explode[0]][explode[1]],explode[0],explode[1]);
                         }
                     }
                 }
@@ -270,14 +269,7 @@ public class Checkers {
                 holderY = (yfrom + yto) / 2;
                 timerFicha = 4;
             }
-            fichas[(xfrom + xto) / 2][(yfrom + yto) / 2].isdead();
-            board[(xfrom + xto) / 2][(yfrom + yto) / 2] = fichas[(xfrom + xto) / 2][(yfrom + yto) / 2].getName();
-            System.out.println(fichas[(xfrom + xto) / 2][(yfrom + yto) / 2].getName());
-            if (redOrBlue(fichas[(xfrom + xto) / 2][(yfrom + yto) / 2])) {
-                redcheckers--;
-            } else {
-                bluecheckers--;
-            }
+            redOrBlue(fichas[(xfrom + xto) / 2][(yfrom + yto) / 2],(int)((xfrom + xto) / 2),(int)((yfrom + yto) / 2));
         }
         timerCasilla--;
         timerFicha--;
@@ -299,8 +291,14 @@ public class Checkers {
         printBoard();
     }
 
-    public boolean redOrBlue(Ficha ficha){
-        return "r".equals(ficha.getName()) || "qr".equals(ficha.getName()) || "zr".equals(ficha.getName()) || "nr".equals(ficha.getName());
+    public void redOrBlue(Ficha ficha, int x, int y){
+         if("r".equals(ficha.getName()) || "qr".equals(ficha.getName()) || "zr".equals(ficha.getName()) || "nr".equals(ficha.getName())) {
+             redcheckers--;
+         } else {
+             bluecheckers--;
+         }
+        fichas[x][y].isdead();
+        board[x][y] = fichas[x][y].getName();
     }
     /**
      * fabrica la matriz que representa el tablero de forma logica
