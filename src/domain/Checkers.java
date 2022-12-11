@@ -1,5 +1,6 @@
 package domain;
 
+import javax.swing.*;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.*;
@@ -15,6 +16,7 @@ public class Checkers {
     private final Ficha[][] fichas;
     private final Casilla[][] casillas;
     private final Color[][] boardColor;
+    private final Icon[][] iconBoard;
     private int redcheckers, bluecheckers, holderX, holderY, timerCasilla, timerFicha;
     private char turno;
     private Color colorUp;
@@ -25,6 +27,7 @@ public class Checkers {
     public Checkers() {
         board = new String[SIZE][SIZE];
         boardColor = new Color[SIZE][SIZE];
+        iconBoard = new Icon[SIZE][SIZE];
         fichas = new Ficha[SIZE][SIZE];
         casillas = new Casilla[SIZE][SIZE];
         redcheckers = 20;
@@ -260,6 +263,7 @@ public class Checkers {
         fichas[xfrom][yfrom] = fDead;
         board[xfrom][yfrom] = fichas[xfrom][yfrom].getName();
         board[xto][yto] = fichas[xto][yto].getName();
+
         if (Math.abs(xto - xfrom) == 2) {
             if(fichas[(xfrom + xto) / 2][(yfrom + yto) / 2].getName().equals("zb") || fichas[(xfrom + xto) / 2][(yfrom + yto) / 2].getName().equals("zr")){
                 holderX = (xfrom + xto) / 2;
@@ -278,9 +282,11 @@ public class Checkers {
         timerCasilla--;
         timerFicha--;
         System.out.println(timerFicha);
+
         if (timerCasilla == 0) {
             fichas[holderX][holderY].setColor(colorUp);
         }
+
         if (timerFicha == 0) {
             if(board[holderX][holderY].equals("_")) {
                 fichas[holderX][holderY].toRevive();
@@ -318,6 +324,9 @@ public class Checkers {
      */
     public Color[][] getColorMatriz() {
         return boardColor;
+    }
+    public Icon[][] getIconMatriz() {
+        return iconBoard;
     }
 
     /**
