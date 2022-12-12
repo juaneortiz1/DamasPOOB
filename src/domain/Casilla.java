@@ -14,6 +14,7 @@ public class Casilla {
      * Clase constructora de Casilla
      * @param x posicion del objeto en x
      * @param y posicion del objeto en y
+     * @param name Nombre de la casilla
      */
     public Casilla(int x, int y, String name){
         color = Color.BLACK;
@@ -32,7 +33,7 @@ public class Casilla {
 
     /**
      * Retorna la posicion en x del objeto
-     * @return
+     * @return entero
      */
     public int getX() {
         return x;
@@ -43,7 +44,7 @@ public class Casilla {
      * Retorna posicion del objeto en y
      *
      * @param y entero que establece la posicion en y
-     * @return
+     * @return entero
      */
     public int getY(int y) {
         return y;

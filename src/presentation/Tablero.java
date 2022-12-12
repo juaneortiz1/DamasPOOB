@@ -246,7 +246,7 @@ public class Tablero extends JPanel {
      * Pinta la matriz despues de cada accion
      */
     public void paint() {
-        if(checkers.getBluecheckers() <= 18 || checkers.getRedcheckers() <= 18){
+        if(checkers.getBluecheckers() <= 0 || checkers.getRedcheckers() <= 0){
             decide = false;
         }
         if (decide) {
@@ -256,11 +256,19 @@ public class Tablero extends JPanel {
                 for (int j = 0; j < casillas[0].length; j++) {
                     if (fichas[i][j] != null) {
                         fichas[i][j].changeColor(newColors[i][j]);
-                        if(newColors[i][j] != Color.BLACK){
+                        if(newColors[i][j] == Color.red || newColors[i][j] == Color.blue){
                             ImageIcon forFicha = new ImageIcon("chinese-checkers (1).png");
                             fichas[i][j].setIcon(new ImageIcon(forFicha.getImage().getScaledInstance(45,45, Image.SCALE_SMOOTH)));
-                        }
-                        else{
+                        } else if (newColors[i][j] == Color.green) {
+                            ImageIcon forPortal = new ImageIcon("portal.png");
+                            fichas[i][j].setIcon(new ImageIcon(forPortal.getImage().getScaledInstance(45,45, Image.SCALE_SMOOTH)));
+                        } else if (newColors[i][j] == Color.DARK_GRAY) {
+                            ImageIcon forMine = new ImageIcon("tnt.jpg");
+                            fichas[i][j].setIcon(new ImageIcon(forMine.getImage().getScaledInstance(45,45, Image.SCALE_SMOOTH)));
+                        } else if (newColors[i][j] == Color.magenta) {
+                            ImageIcon forJail = new ImageIcon("jail.png");
+                            fichas[i][j].setIcon(new ImageIcon(forJail.getImage().getScaledInstance(45,45, Image.SCALE_SMOOTH)));
+                        } else{
                             fichas[i][j].setIcon(null);
                         }
                     }

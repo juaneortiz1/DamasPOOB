@@ -14,7 +14,7 @@ public class CasillaNormal extends Casilla{
      *
      * @param x    posicion del objeto en x
      * @param y    posicion del objeto en y
-     * @param name
+     * @param name String nombre de la casilla
      */
     public CasillaNormal(int x, int y, String name) {
         super(x, y, name);
@@ -33,7 +33,7 @@ public class CasillaNormal extends Casilla{
 
     /**
      * Retorna la posicion en x del objeto
-     * @return
+     * @return entero posicion x
      */
     public int getX() {
         return x;
@@ -43,7 +43,7 @@ public class CasillaNormal extends Casilla{
      * Retorna posicion del objeto en y
      *
      * @param y entero que establece la posicion en y
-     * @return
+     * @return entero posicion y
      */
     public int getY(int y) {
         return y;

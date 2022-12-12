@@ -61,7 +61,7 @@ public class CasillaMine extends Casilla{
      * Devuelve una matriz de posiciones con las fichas alrededor de de la mina
      * @param x
      * @param y
-     * @return
+     * @return matriz de entero
      */
     public int[][] perimeter(int x ,int y){
         int[][] perimeter = new int[5][2];
