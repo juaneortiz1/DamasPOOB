@@ -2,6 +2,9 @@ package domain;
 
 import java.awt.*;
 
+/**
+ * Casilla que teletransporta una ficha a otra casilla teleport
+ */
 public class CasillaTeleport extends Casilla {
     private Color color;
     private String name;
@@ -19,27 +22,17 @@ public class CasillaTeleport extends Casilla {
         this.name = name;
         this.color  = Color.green;
     }
-    /**
-     * Retorna el color del objeto
-     * @return Color
-     */
+
     public Color getColor() {
         return color;
     }
 
-    /**
-     * Retorna la posicion en x del objeto
-     * @return
-     */
+
     public int getX() {
         return x;
     }
 
-    /**
-     * Retorna posicion del objeto en y
-     *
-     * @return
-     */
+
     public int getY() {
         return y;
     }

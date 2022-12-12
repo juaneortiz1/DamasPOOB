@@ -2,6 +2,9 @@ package domain;
 
 import java.awt.*;
 
+/**
+ * Lugar donde puede ser posicionada una ficha
+ */
 public class CasillaNormal extends Casilla{
     private Color color;
     private String name;

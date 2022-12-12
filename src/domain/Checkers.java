@@ -2,10 +2,7 @@ package domain;
 
 import javax.swing.*;
 import java.awt.Color;
-import java.io.IOException;
 import java.util.*;
-
-import static java.lang.Integer.parseInt;
 
 /**
  * Genera el juego de manera logica
@@ -15,10 +12,10 @@ public class Checkers {
     private final String[][] board;
     private final Ficha[][] fichas;
     private final Casilla[][] casillas;
+    private final Casilla[] casillasEspeciales;
     private final Color[][] boardColor;
     private final Icon[][] iconBoard;
     private int redcheckers, bluecheckers, holderX, holderY, timerCasilla, timerFicha;
-    private char turno;
     private Color colorUp;
 
     /**
@@ -30,9 +27,9 @@ public class Checkers {
         iconBoard = new Icon[SIZE][SIZE];
         fichas = new Ficha[SIZE][SIZE];
         casillas = new Casilla[SIZE][SIZE];
+        casillasEspeciales = new Casilla[4];
         redcheckers = 20;
         bluecheckers = 20;
-        turno = 'r';
         generateMatrix();
     }
     public String[][] getBoard() {
@@ -69,15 +66,57 @@ public class Checkers {
         CasillaTeleport casilla1 = new CasillaTeleport(2, 5, "t");
         CasillaTeleport casilla2 = new CasillaTeleport(7,4,"t");
         CasillaJail casilla3 = new CasillaJail(3,4,"j");
-        casillas[5][4] = casilla;
-        casillas[2][5] = casilla1;
-        casillas[9][4] = casilla2;
-        casillas[3][4] = casilla3;
-        board[5][4] = casilla.getName();
-        board[2][5] = casilla1.getName();
-        board[9][4] = casilla2.getName();
-        board[3][4] = casilla3.getName();
-        System.out.println(casilla1.getColor());
+
+        casillasEspeciales[0] = casilla;
+        casillasEspeciales[1] = casilla3;
+        casillasEspeciales[2] = casilla1;
+        casillasEspeciales[3] = casilla2;
+
+        for (Casilla casillasEspeciale : casillasEspeciales) {
+            int minFila = 4;
+            int maxFila = 5;
+            int minCol = 0;
+            int maxCol = 4;
+            int[] coldeF4 = {1, 3, 5, 7, 9};
+            int[] coldeF5 = {0, 2, 4, 6, 8};
+
+            Random rand = new Random();
+
+
+            int randomFila = rand.nextInt((maxFila - minFila) + 1) + minFila;
+
+            if (randomFila == 4) {
+                Random rand1 = new Random();
+                int randomCol = rand1.nextInt((maxCol - minCol) + 1) + minCol;
+
+
+                System.out.println(randomCol);
+                System.out.println(randomFila);
+
+                casillas[coldeF4[randomCol]][randomFila] = casillasEspeciale;
+                casillas[coldeF4[randomCol]][randomFila].setName(casillasEspeciale.getName());
+                casillas[coldeF4[randomCol]][randomFila].setX(coldeF4[randomCol]);
+                casillas[coldeF4[randomCol]][randomFila].setY(randomFila);
+
+                board[coldeF4[randomCol]][randomFila] = casillasEspeciale.getName();
+            } else {
+                Random rand1 = new Random();
+                int randomCol = rand1.nextInt((maxCol - minCol) + 1) + minCol;
+
+
+                System.out.println(randomCol);
+                System.out.println(randomFila);
+
+                casillas[coldeF5[randomCol]][randomFila] = casillasEspeciale;
+                casillas[coldeF5[randomCol]][randomFila].setName(casillasEspeciale.getName());
+                casillas[coldeF5[randomCol]][randomFila].setX(coldeF4[randomCol]);
+                casillas[coldeF5[randomCol]][randomFila].setY(randomFila);
+
+                board[coldeF5[randomCol]][randomFila] = casillasEspeciale.getName();
+            }
+
+        }
+
         return board;
     }
     /**
@@ -107,29 +146,9 @@ public class Checkers {
         }
         System.out.println("y");
     }
-    /**
-     * Determina el siguiente movimeinto
-     */
-    public void getNextMove() throws IOException {
-        Scanner stdin = new Scanner(System.in);
-        boolean moved = false;
-        while(!moved) {
-            int xfrom = stdin.nextInt();
-            int yfrom = stdin.nextInt();
 
-            int xto = stdin.nextInt();
-            int yto = stdin.nextInt();
-            executeMove(xfrom, yfrom, xto, yto);
-        }
-        if (turno == 'r') {
-            turno = 'b';
-        }else {
-            turno = 'r';
-        }
-    }
     /**
-     * Reali
-     * za el movimiento de las fichas
+     * Realiza el movimiento de las fichas
      *
      * @param x posicion x en el tablero del elemento
      * @param y posicion y en el tablero del elemento
@@ -155,46 +174,53 @@ public class Checkers {
         return view;
     }
 
-
+    /**
+     * Convierte a una ficha en una ficha especial
+     */
     public void addPower() {
-
         for (int i = 0; i < 10; i++) {
             if (board[i][0].equals("b")) {
-                //goPower(i, 0, "reina", 'b');
-                //goPower( i,  0, "ninja",  'b');
-                goPower( i,  0, "zombie",  'b');
+                goPower( i,  0,   'b');
             }
             if (board[i][9].equals("r")) {
-                //goPower(i, 9, "reina", 'r');
-                //goPower( i,  9, "ninja",  'r');
-                goPower( i,  9, "zombie",  'r');
+                goPower( i,  9,   'r');
             }
         }
     }
-    public void goPower(int x, int y, String power, char bando) {
+
+    /**
+     * Permite escoger en que ficha especial se desea convertir la normal
+     * @param x entero que representa la posicion en x de la fichas
+     * @param y entero que representa la posicion en y de la fichas
+     * @param bando caracter que representa el bando del que se cambiará la ficha
+     */
+    public void goPower(int x, int y, char bando) {
+        String[] powers = {"reina","ninja","zombie"};
+        var power = JOptionPane.showOptionDialog(null, "Select one:", "Let's play a game!",
+                0, 3, null, powers, powers[0]);
         System.out.println(power);
         Ficha ficha = null;
         if (bando == 'r') {
             switch (power) {
-                case "reina": {ficha = new FichaReina(x, y, "qr");
+                case 0: {ficha = new FichaReina(x, y, "qr");
                     break;
                 }
-                case "ninja": {ficha = new FichaNinja(x, y, "nr");
+                case 1: {ficha = new FichaNinja(x, y, "nr");
                     break;
                 }
-                case "zombie": {ficha = new FichaZombie(x, y, "zr");
+                case 2: {ficha = new FichaZombie(x, y, "zr");
                     break;
                 }
             }
         } else {
             switch (power) {
-                case "reina": {ficha = new FichaReina(x, y, "qb");
+                case 0: {ficha = new FichaReina(x, y, "qb");
                     break;
                 }
-                case "ninja": {ficha = new FichaNinja(x, y, "nb");
+                case 1: {ficha = new FichaNinja(x, y, "nb");
                     break;
                 }
-                case "zombie": {ficha = new FichaZombie(x, y, "zb");
+                case 2: {ficha = new FichaZombie(x, y, "zb");
                     break;
                 }
             }
@@ -203,6 +229,14 @@ public class Checkers {
         assert ficha != null;
         board[x][y] = ficha.getName();
     }
+
+    /**
+     * Asigna que clase de comportamiento tendrá una ficha al posicionarse sobre una casilla
+     * @param xfrom Posición de partida en x
+     * @param yfrom Posición de partida en y
+     * @param xto Posición de destino en x
+     * @param yto Posición de destino en y
+     */
     public void powerCasillas(int xfrom, int yfrom, int xto, int yto){
         switch (casillas[xto][yto].getName()) {
             case "m" : {
@@ -278,7 +312,6 @@ public class Checkers {
         }
         timerCasilla--;
         timerFicha--;
-        System.out.println(timerFicha);
 
         if (timerCasilla == 0) {
             fichas[holderX][holderY].setColor(colorUp);
@@ -296,6 +329,12 @@ public class Checkers {
         printBoard();
     }
 
+    /**
+     * Señala el turno de la ficha actual
+     * @param ficha Objeto ficha
+     * @param x entero que señala la posicion en x de la ficha
+     * @param y entero que señala la posicion en y de la ficha
+     */
     public void redOrBlue(Ficha ficha, int x, int y){
          if("r".equals(ficha.getName()) || "qr".equals(ficha.getName()) || "zr".equals(ficha.getName()) || "nr".equals(ficha.getName())) {
              redcheckers--;
@@ -332,30 +371,9 @@ public class Checkers {
         return iconBoard;
     }
 
-    /**
-     * Determina si el juego ya ha acabado
-     *
-     * @return boolean
-     */
-    public boolean gameOver() {
-        return (redcheckers == 0 || bluecheckers == 0);
-    }
 
-    /**
-     * determina quien es el ganador
-     * @return winer
-     */
-    public String winnerIs() {
-        return (bluecheckers == 0) ? "red" : "black";
-    }
 
-    public static void main() throws IOException {
-        Checkers game = new Checkers();
-        game.printBoard();
-        while (!game.gameOver()) {
-            game.getNextMove();
-            game.printBoard();
-        }
-        System.out.println("The winner is " + game.winnerIs());
-    }
+
+
+
 }

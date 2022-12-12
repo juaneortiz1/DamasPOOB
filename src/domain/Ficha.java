@@ -2,6 +2,9 @@ package domain;
 
 import java.awt.*;
 
+/**
+ * Interfaz que interactua con clases fichas
+ */
 public interface Ficha {
     public default int getX() {return 0;}
     private void setX(int x) {}

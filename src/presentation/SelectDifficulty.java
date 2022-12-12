@@ -12,7 +12,7 @@ import java.net.URL;
  *
  */
 public class SelectDifficulty extends JPanel {
-    private DamasPOOBGUI damasPOOBGUI;
+    private final DamasPOOBGUI damasPOOBGUI;
     private JButton opNormal, opQuickTime;
 
     private Image image;

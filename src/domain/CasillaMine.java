@@ -2,6 +2,9 @@ package domain;
 
 import java.awt.*;
 
+/**
+ * Clase que genera una casilla que explota y asesina a las fichas asu alrededor
+ */
 public class CasillaMine extends Casilla{
     private Color color;
     private String name;
@@ -53,6 +56,13 @@ public class CasillaMine extends Casilla{
     public void setName(String name) {
         this.name = name;
     }
+
+    /**
+     * Devuelve una matriz de posiciones con las fichas alrededor de de la mina
+     * @param x
+     * @param y
+     * @return
+     */
     public int[][] perimeter(int x ,int y){
         int[][] perimeter = new int[5][2];
         perimeter[0][0] = x;

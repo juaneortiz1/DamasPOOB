@@ -106,7 +106,7 @@ public class Menu extends JPanel{
     /**
      * Carga la imagen preferida
      * @param url direccion de la imagen al cargar
-     * @return Image
+     * @return Image imagen que
      */
     private Image loadImage(String url) {
         try {

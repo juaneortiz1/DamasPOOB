@@ -1,12 +1,9 @@
 package presentation;
-import domain.Board;
 import domain.Checkers;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Arrays;
+
 
 /**
  * Clase que genera el tablero con el que interactara para jugar
@@ -59,24 +56,35 @@ public class Tablero extends JPanel {
      * Metodo que escoge el ganador
      */
     private void chooseWinner() {
-        Tablero panel = this;
-        JPanel winner;
+        String[] options ={"Nuevo Juego?","No,Gracias"};
         if(checkers.getBluecheckers() == 0){
-            winner = new JPanel();
-            winner.setBackground(Color.RED);
-            panel.setVisible(false);
-            damasPOOBGUI.remove(panel);
-            damasPOOBGUI.add(winner);
-            winner.setVisible(true);
-
+            var option = JOptionPane.showOptionDialog(null, "Ganaste " + jugador2+"!", "Felicidades",
+                    0, 3, null, options, options[0]);
+            switch (option){
+                case 0 :{
+                    damasPOOBGUI.setVisible(false);
+                    DamasPOOBGUI gui = new DamasPOOBGUI();
+                    gui.setVisible(true);
+                }
+                case  1:{
+                    damasPOOBGUI.setVisible(false);
+                    System.exit(0);
+                }
+            }
         }
         else {
-            winner = new JPanel();
-            winner.setBackground(Color.BLUE);
-            panel.setVisible(false);
-            damasPOOBGUI.remove(panel);
-            damasPOOBGUI.add(winner);
-            winner.setVisible(true);
+            var option = JOptionPane.showOptionDialog(null, "Ganaste " + jugador1+"!", "Felicidades",
+                    0, 3, null, options, options[0]);
+            switch (option){
+                case 0 :{
+                    damasPOOBGUI.setVisible(false);
+                    DamasPOOBGUI gui = new DamasPOOBGUI();
+                    gui.setVisible(true);
+                }
+                case  1:{
+                    damasPOOBGUI.setVisible(false);
+                }
+            }
         }
     }
 
@@ -129,12 +137,7 @@ public class Tablero extends JPanel {
      * @param ficha Elemento tipo ficha
      */
     private void prepareActions(Ficha ficha) {
-            ficha.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    reservarFicha(ficha);
-                }
-            });
+            ficha.addActionListener(e -> reservarFicha(ficha));
     }
 
     /**
@@ -192,29 +195,31 @@ public class Tablero extends JPanel {
         add(panelmatriz);
         damasPOOBGUI.add(this);
     }
+
+    /**
+     * Señala la puntiación Actual en el juego
+     */
     public void makePuntuacionActual(){
-        System.out.println("deberia morir");
-        puntaje.setText(jugador1+"       "+Integer.toString(checkers.getBluecheckers())+"            "+ jugador2 +"       "+Integer.toString(checkers.getRedcheckers()));
+        puntaje.setText(jugador1+"       "+ checkers.getBluecheckers() +"            "+ jugador2 +"       "+ checkers.getRedcheckers());
         puntaje.setFont(new Font("Verdana", Font.PLAIN, 12));
         espacioDePuntaje.add(puntaje);
         add(espacioDePuntaje,BorderLayout.EAST);
     }
 
     /**
-     *
-     * @param ficha
+     * Reserva una ficha
+     * @param ficha Objeto ficha
      */
     public void reservarFicha(Ficha ficha){
-        System.out.println(ficha.getColor());
         if(fichaSelect == null){
             int[][] vewAl;
             fichaSelect = ficha;
             vewAl = checkers.goMove(ficha.getX(),ficha.getY());
-                for(int i = 0; i < vewAl.length; i++){
-                    if(fichas[vewAl[i][0]][vewAl[i][1]] != null) {
-                        fichas[vewAl[i][0]][vewAl[i][1]].acive();
-                    }
+            for (int[] ints : vewAl) {
+                if (fichas[ints[0]][ints[1]] != null) {
+                    fichas[ints[0]][ints[1]].acive();
                 }
+            }
         }else{
             casillaSelect = ficha;
             move(fichaSelect, casillaSelect);
@@ -224,8 +229,8 @@ public class Tablero extends JPanel {
 
     /**
      * Mueve una ficha a un espacio vacio
-     * @param ficha
-     * @param casilla
+     * @param ficha Objeto tipo Fichas
+     * @param casilla Objeto tipo casillas
      */
     public void move(Ficha ficha, Ficha casilla){
         if(ficha != null && casilla != null){
@@ -241,7 +246,7 @@ public class Tablero extends JPanel {
      * Pinta la matriz despues de cada accion
      */
     public void paint() {
-        if(checkers.getBluecheckers() == 0 || checkers.getRedcheckers() == 0){
+        if(checkers.getBluecheckers() <= 18 || checkers.getRedcheckers() <= 18){
             decide = false;
         }
         if (decide) {

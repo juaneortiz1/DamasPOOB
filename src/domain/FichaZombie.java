@@ -3,6 +3,9 @@ package domain;
 import java.awt.*;
 import java.util.Objects;
 
+/**
+ * Al morir esta ficha resucita despues de tres turnos
+ */
 public class FichaZombie implements Ficha{
     private int x, y, live, time;
     private String name;
@@ -30,7 +33,13 @@ public class FichaZombie implements Ficha{
     public  void setLive(int live) {}
     public  String getName() {return name;}
     public  void setName(String name) {this.name = name;}
+    /**
+     * Asesina a la ficha
+     */
     public  void dead(){setName("_");}
+    /**
+     * Resta las vidas que tenga las fichas
+     */
     public  void isdead(){
         live -= 1;
         if(live < 1){
@@ -38,6 +47,9 @@ public class FichaZombie implements Ficha{
             setColor(Color.BLACK);
         }
     }
+    /**
+     * Resucita a la ficha
+     */
     public void toRevive(){
             setName(saveName);
             setColor(saveColor);

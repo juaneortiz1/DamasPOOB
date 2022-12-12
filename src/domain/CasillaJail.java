@@ -2,6 +2,9 @@ package domain;
 
 import java.awt.*;
 
+/**
+ * Casilla que retiene una ficha por tres turnos
+ */
 public class CasillaJail extends Casilla{
     private Color color;
     private String name;

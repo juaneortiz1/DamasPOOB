@@ -39,7 +39,8 @@ class CheckersTest {
 
 
     @Test
-    void goMove() {
+    void getNextMove() {
+
     }
     @Test
     void addPower() {
@@ -51,34 +52,14 @@ class CheckersTest {
 
     @Test
     void executeMoveT() {
-        Checkers checkers = new Checkers();
-        checkers.getBoard()[2][5] = "t";
-        checkers.executeMove(1,6,2,5);
-        assertEquals(checkers.getBoard()[7][4],"b");
+
     }
     @Test
     void executeMoveJ() {
-        Checkers checkers = new Checkers();
-        checkers.getBoard()[3][4] = "j";
-        checkers.executeMove(2,3,3,4);
-        assertEquals(checkers.getBoard()[3][4],  "jr");
-        checkers.executeMove(1,0,1,0);
-        checkers.executeMove(1,0,1,0);
-        checkers.executeMove(1,0,1,0);
-        assertEquals(checkers.getBoard()[3][4],"r");
+
     }
     @Test
     void executeMoveM() {
-        Checkers checkers = new Checkers();
-        checkers.getBoard()[5][4] = "m";
-        checkers.executeMove(6,3,5,4);
-        assertEquals(checkers.getBoard()[5][2],"_");
-        assertEquals(checkers.getBoard()[4][3],"_");
-        assertEquals(checkers.getBoard()[6][3],"_");
-        assertEquals(checkers.getBoard()[5][4],"_");
-        assertEquals(checkers.getBoard()[5][6],"_");
-        assertEquals(checkers.getBluecheckers(),19);
-        assertEquals(checkers.getRedcheckers(),17);
     }
 
     @Test
